@@ -13,6 +13,7 @@ public class StarGame extends ApplicationAdapter {
   @Override
   public void create() {
     batch = new SpriteBatch();
+    // TODO найти, залить в assets и отрисовать фон для игры
     img = new Texture("badlogic.jpg");
   }
 
