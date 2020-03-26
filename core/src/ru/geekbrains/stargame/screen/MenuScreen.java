@@ -3,19 +3,16 @@ package ru.geekbrains.stargame.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import ru.geekbrains.stargame.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
-  private SpriteBatch batch;
   private Texture background;
 
   @Override
   public void show() {
     super.show();
-    batch = new SpriteBatch();
     background = new Texture("space.png");
   }
 

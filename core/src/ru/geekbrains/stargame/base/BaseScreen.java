@@ -3,8 +3,11 @@ package ru.geekbrains.stargame.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public abstract class BaseScreen implements Screen, InputProcessor {
+
+  protected SpriteBatch batch;
 
   @Override
   public boolean keyDown(int keycode) {
@@ -62,6 +65,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   @Override
   public void show() {
     System.out.println("show");
+    batch = new SpriteBatch();
     Gdx.input.setInputProcessor(this);
   }
 
