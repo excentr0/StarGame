@@ -12,6 +12,7 @@ public class MenuScreen extends BaseScreen {
   private Texture background;
   private Texture smallShip;
   private Vector2 shipPosition;
+  private Vector2 v;
 
   @Override
   public void show() {
@@ -19,16 +20,13 @@ public class MenuScreen extends BaseScreen {
     background = new Texture("space.png");
     smallShip = new Texture("small_ship.png");
     shipPosition = new Vector2();
+    v = new Vector2(3, 3);
   }
 
   @Override
   public void render(float delta) {
-    Gdx.gl.glClearColor(0, 0, 0, 1);
-    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-    batch.begin();
-    batch.draw(background, 0, 0);
-    batch.draw(smallShip, shipPosition.x, shipPosition.y);
-    batch.end();
+    update(delta);
+    draw();
   }
 
   @Override
@@ -42,5 +40,18 @@ public class MenuScreen extends BaseScreen {
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
     shipPosition.set(screenX, Gdx.graphics.getHeight() - (float) screenY);
     return false;
+  }
+
+  private void update(float delta) {
+    shipPosition.add(v);
+  }
+
+  private void draw() {
+    Gdx.gl.glClearColor(0, 0, 0, 1);
+    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    batch.begin();
+    batch.draw(background, 0, 0);
+    batch.draw(smallShip, shipPosition.x, shipPosition.y);
+    batch.end();
   }
 }
