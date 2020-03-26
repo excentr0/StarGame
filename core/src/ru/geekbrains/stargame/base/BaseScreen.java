@@ -52,7 +52,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
   @Override
   public boolean mouseMoved(int screenX, int screenY) {
-    System.out.printf("mouseMoved screenX = %d, screenY = %d%n", screenX, screenY);
+    //    System.out.printf("mouseMoved screenX = %d, screenY = %d%n", screenX, screenY);
     return false;
   }
 
