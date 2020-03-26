@@ -12,7 +12,10 @@ public class MenuScreen extends BaseScreen {
   private Texture background;
   private Texture smallShip;
   private Vector2 shipPosition;
-  private Vector2 v;
+  private Vector2 newPosition;
+  private Vector2 dir;
+
+  private final float speed = 20f;
 
   @Override
   public void show() {
@@ -20,7 +23,8 @@ public class MenuScreen extends BaseScreen {
     background = new Texture("space.png");
     smallShip = new Texture("small_ship.png");
     shipPosition = new Vector2();
-    v = new Vector2(3, 3);
+    newPosition = new Vector2();
+    dir = new Vector2();
   }
 
   @Override
@@ -33,17 +37,25 @@ public class MenuScreen extends BaseScreen {
   public void dispose() {
     batch.dispose();
     background.dispose();
+    smallShip.dispose();
     super.dispose();
   }
 
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-    shipPosition.set(screenX, Gdx.graphics.getHeight() - (float) screenY);
-    return false;
+    newPosition.set(screenX, Gdx.graphics.getHeight() - (float) screenY);
+    dir = newPosition.cpy().sub(shipPosition).nor();
+    System.out.println("dir=>" + dir);
+    return true;
   }
 
   private void update(float delta) {
-    shipPosition.add(v);
+    if ((int) shipPosition.x != (int) newPosition.x) {
+      shipPosition.x += dir.x * speed * delta;
+    }
+    if ((int) shipPosition.y != (int) newPosition.y) {
+      shipPosition.y += dir.y * speed * delta;
+    }
   }
 
   private void draw() {
