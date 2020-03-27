@@ -4,18 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-
 import ru.geekbrains.stargame.base.BaseScreen;
 
 public class MenuScreen extends BaseScreen {
 
+  private final float speed = 20f;
   private Texture background;
   private Texture smallShip;
   private Vector2 shipPosition;
   private Vector2 newPosition;
   private Vector2 dir;
-
-  private final float speed = 20f;
 
   @Override
   public void show() {
@@ -43,12 +41,15 @@ public class MenuScreen extends BaseScreen {
 
   @Override
   public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+    // Инвертируем ось Y
     newPosition.set(screenX, Gdx.graphics.getHeight() - (float) screenY);
+    // Вычитаем векторы и нормализуем, что бы получить направление
     dir = newPosition.cpy().sub(shipPosition).nor();
     return true;
   }
 
   private void update(float delta) {
+    // Проверки, что бы корабль останавливался в точке клика
     if ((int) shipPosition.x != (int) newPosition.x) {
       shipPosition.x += dir.x * speed * delta;
     }
