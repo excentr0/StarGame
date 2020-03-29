@@ -45,7 +45,8 @@ public class GameScreen extends BaseScreen {
   @Override
   public boolean touchDown(
       final int screenX, final int screenY, final int pointer, final int button) {
-    shipSprite.touchDown(touch, pointer, button);
+    calcTouch(screenX, screenY);
+    shipSprite.calcNewPosition(touch);
     return false;
   }
 

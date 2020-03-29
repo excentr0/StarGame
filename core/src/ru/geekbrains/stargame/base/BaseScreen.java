@@ -13,12 +13,12 @@ import ru.geekbrains.stargame.math.Rect;
 public abstract class BaseScreen implements Screen, InputProcessor {
 
   protected SpriteBatch batch;
+  protected Vector2 touch;
   private Rect screenBounds;
   private Rect worldBounds;
   private Rect glBounds;
   private Matrix4 worldToGl;
-  private   Matrix3 screenToWorld;
-  protected Vector2 touch;
+  private Matrix3 screenToWorld;
 
   @Override
   public void show() {
@@ -114,7 +114,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
   public boolean touchUp(Vector2 touch, int pointer, int button) {
     System.out.println(
-        "touchUp touch X = "
+        "touchUp Vector touch X = "
             + touch.x
             + " touch Y = "
             + touch.y
@@ -150,13 +150,13 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     return false;
   }
 
-  private void calcTouch(int screenX, int screenY) {
+  protected void calcTouch(int screenX, int screenY) {
     touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
   }
 
   public boolean touchDown(Vector2 touch, int pointer, int button) {
     System.out.println(
-        "touchDown touch X = "
+        "touchDown Vector touch X = "
             + touch.x
             + " touch Y = "
             + touch.y

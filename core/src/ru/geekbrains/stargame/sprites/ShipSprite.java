@@ -29,11 +29,9 @@ public class ShipSprite extends Sprite {
     position.set(worldBounds.position);
   }
 
-  @Override
-  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+  public boolean calcNewPosition(final Vector2 touch) {
     newPosition = touch.cpy();
-    dir.set(touch.cpy().sub(position).nor());
-    System.out.println("dir=" + dir);
+    dir.set(touch.sub(position).nor());
     return false;
   }
 }
