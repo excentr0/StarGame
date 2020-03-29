@@ -1,6 +1,5 @@
 package ru.geekbrains.stargame.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -9,8 +8,7 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 
 public class ShipSprite extends Sprite {
-  private final float speed = 20f;
-  private Vector2 shipPosition = new Vector2();
+  private final float speed = 0.05f;
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
 
@@ -21,27 +19,21 @@ public class ShipSprite extends Sprite {
 
   @Override
   public void update(final float delta) {
-    // Проверки, что бы корабль останавливался в точке клика
-    if ((int) shipPosition.x != (int) newPosition.x) {
-      shipPosition.x += dir.x * speed * delta;
-    }
-    if ((int) shipPosition.y != (int) newPosition.y) {
-      shipPosition.y += dir.y * speed * delta;
+    if (newPosition.dst(position) > 0.001f) {
+      position.mulAdd(dir, delta * speed);
     }
   }
 
   @Override
   public void resize(final Rect worldBounds) {
-    setHeightProportion(1f);
     position.set(worldBounds.position);
   }
 
   @Override
   public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
-    // Инвертируем ось Y
-    newPosition.set(touch.x, Gdx.graphics.getHeight() - touch.y);
-    // Вычитаем векторы и нормализуем, что бы получить направление
-    dir = newPosition.cpy().sub(shipPosition).nor();
-    return true;
+    newPosition = touch.cpy();
+    dir.set(touch.cpy().sub(position).nor());
+    System.out.println("dir=" + dir);
+    return false;
   }
 }

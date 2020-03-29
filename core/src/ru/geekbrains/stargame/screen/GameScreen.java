@@ -42,6 +42,13 @@ public class GameScreen extends BaseScreen {
     super.dispose();
   }
 
+  @Override
+  public boolean touchDown(
+      final int screenX, final int screenY, final int pointer, final int button) {
+    shipSprite.touchDown(touch, pointer, button);
+    return false;
+  }
+
   private void draw() {
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
