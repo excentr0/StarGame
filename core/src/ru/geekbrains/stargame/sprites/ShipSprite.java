@@ -29,9 +29,13 @@ public class ShipSprite extends Sprite {
     position.set(worldBounds.position);
   }
 
-  public boolean calcNewPosition(final Vector2 touch) {
+  /**
+   * Вычисляем вектор направления от текущей позиции корабля к точке касания экрана
+   *
+   * @param touch вектор касания экрана
+   */
+  public void calcNewPosition(final Vector2 touch) {
     newPosition = touch.cpy();
     dir.set(touch.sub(position).nor());
-    return false;
   }
 }
