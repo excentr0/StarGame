@@ -14,7 +14,7 @@ public class ShipSprite extends Sprite {
 
   public ShipSprite(Texture texture) throws GameException {
     super(new TextureRegion(texture));
-    this.setSize(0.07f, 0.07f);
+    this.setHeightProportion(0.07f);
   }
 
   @Override
