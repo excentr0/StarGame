@@ -3,8 +3,10 @@ package ru.geekbrains.stargame.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
+import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.sprites.BackgroundSprite;
 import ru.geekbrains.stargame.sprites.ShipSprite;
 
@@ -35,6 +37,12 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
+  public void resize(final Rect worldBounds) {
+    shipSprite.resize(worldBounds);
+    backgroundSprite.resize(worldBounds);
+  }
+
+  @Override
   public void dispose() {
     batch.dispose();
     background.dispose();
@@ -43,10 +51,8 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
-  public boolean touchDown(
-      final int screenX, final int screenY, final int pointer, final int button) {
-    calcTouch(screenX, screenY);
-    shipSprite.calcNewPosition(touch);
+  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+    shipSprite.touchDown(touch, pointer, button);
     return false;
   }
 

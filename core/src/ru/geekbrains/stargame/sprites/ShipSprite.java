@@ -14,7 +14,6 @@ public class ShipSprite extends Sprite {
 
   public ShipSprite(Texture texture) throws GameException {
     super(new TextureRegion(texture));
-    this.setHeightProportion(0.07f);
   }
 
   @Override
@@ -27,15 +26,19 @@ public class ShipSprite extends Sprite {
   @Override
   public void resize(final Rect worldBounds) {
     position.set(worldBounds.position);
+    this.setHeightProportion(0.07f);
   }
 
   /**
    * Вычисляем вектор направления от текущей позиции корабля к точке касания экрана
    *
    * @param touch вектор касания экрана
+   * @return false
    */
-  public void calcNewPosition(final Vector2 touch) {
+  @Override
+  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
     newPosition = touch.cpy();
     dir.set(touch.sub(position).nor());
+    return false;
   }
 }
