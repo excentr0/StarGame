@@ -8,7 +8,7 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 
 public class ShipSprite extends Sprite {
-  private final float speed = 0.05f;
+  private final float speed = 0.1f;
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
 
