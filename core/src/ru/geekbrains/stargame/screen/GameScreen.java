@@ -14,24 +14,24 @@ import ru.geekbrains.stargame.sprites.ShipSprite;
 
 public class GameScreen extends BaseScreen {
   private static final int ASTEROID_COUNT = 64;
-
+  private TextureAtlas gameAtlas;
   private ShipSprite shipSprite;
   private BackgroundSprite backgroundSprite;
-
   private AsteroidSprite[] asteroids;
 
   @Override
   public void show() {
     super.show();
 
-    final TextureAtlas gameAtlas = new TextureAtlas("StarGame.pack");
+    gameAtlas = new TextureAtlas("StarGame.atlas");
     final TextureRegion background = gameAtlas.findRegion("background");
     final TextureRegion smallShip = gameAtlas.findRegion("ship");
 
     try {
       shipSprite = new ShipSprite(smallShip);
       backgroundSprite = new BackgroundSprite(background);
-      asteroids = new AsteroidSprite[64];
+      asteroids = new AsteroidSprite[ASTEROID_COUNT];
+
       for (int i = 0; i < ASTEROID_COUNT; i++) {
         asteroids[i] = new AsteroidSprite(gameAtlas);
       }
@@ -77,6 +77,7 @@ public class GameScreen extends BaseScreen {
   @Override
   public void dispose() {
     batch.dispose();
+    gameAtlas.dispose();
     super.dispose();
   }
 

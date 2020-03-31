@@ -1,26 +1,27 @@
 
 StarGame.png
+size: 2048,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 asteroid
   rotate: false
-  xy: 1, 397
+  xy: 1004, 390
   size: 690, 525
   orig: 690, 525
   offset: 0, 0
   index: -1
 background
   rotate: false
-  xy: 1, 1
+  xy: 2, 2
   size: 400, 394
   orig: 400, 394
   offset: 0, 0
   index: -1
 ship
   rotate: false
-  xy: 693, 871
-  size: 50, 51
-  orig: 50, 51
+  xy: 2, 398
+  size: 1000, 517
+  orig: 1000, 517
   offset: 0, 0
   index: -1

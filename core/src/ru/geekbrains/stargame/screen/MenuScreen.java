@@ -15,8 +15,10 @@ import ru.geekbrains.stargame.sprites.ButtonPlay;
 
 public class MenuScreen extends BaseScreen {
   private final Game game;
+
   private BackgroundSprite backgroundSprite;
   private TextureAtlas menuAtlas;
+  private TextureAtlas gameAtlas;
   private ButtonExit buttonExit;
   private ButtonPlay buttonPlay;
 
@@ -30,7 +32,7 @@ public class MenuScreen extends BaseScreen {
 
     menuAtlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
 
-    final TextureAtlas gameAtlas = new TextureAtlas("StarGame.pack");
+    gameAtlas = new TextureAtlas("StarGame.atlas");
     final TextureRegion background = gameAtlas.findRegion("background");
 
     try {
@@ -57,6 +59,7 @@ public class MenuScreen extends BaseScreen {
   @Override
   public void dispose() {
     menuAtlas.dispose();
+    gameAtlas.dispose();
     super.dispose();
   }
 
