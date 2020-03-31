@@ -1,6 +1,5 @@
 package ru.geekbrains.stargame.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Sprite;
@@ -25,7 +24,7 @@ public class ShipSprite extends Sprite {
 
   @Override
   public void resize(final Rect worldBounds) {
-    position.set(worldBounds.position);
+    this.position.set(worldBounds.position).sub(0, 0.2f);
     this.setHeightProportion(0.07f);
   }
 
