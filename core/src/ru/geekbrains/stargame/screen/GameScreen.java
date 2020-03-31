@@ -26,7 +26,7 @@ public class GameScreen extends BaseScreen {
       shipSprite = new ShipSprite(smallShip);
       backgroundSprite = new BackgroundSprite(background);
     } catch (GameException e) {
-      e.printStackTrace();
+      throw new RuntimeException(e);
     }
   }
 
