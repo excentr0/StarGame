@@ -2,7 +2,8 @@ package ru.geekbrains.stargame.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
@@ -12,16 +13,18 @@ import ru.geekbrains.stargame.sprites.ShipSprite;
 
 public class GameScreen extends BaseScreen {
 
-  private Texture background;
-  private Texture smallShip;
+  private TextureRegion background;
+  private TextureRegion smallShip;
   private ShipSprite shipSprite;
   private BackgroundSprite backgroundSprite;
+  private TextureAtlas atlas;
 
   @Override
   public void show() {
     super.show();
-    background = new Texture("space.png");
-    smallShip = new Texture("small_ship.png");
+    atlas = new TextureAtlas("StarGame.pack");
+    background = atlas.findRegion("background");
+    smallShip = atlas.findRegion("ship");
     try {
       shipSprite = new ShipSprite(smallShip);
       backgroundSprite = new BackgroundSprite(background);
@@ -45,8 +48,6 @@ public class GameScreen extends BaseScreen {
   @Override
   public void dispose() {
     batch.dispose();
-    background.dispose();
-    smallShip.dispose();
     super.dispose();
   }
 

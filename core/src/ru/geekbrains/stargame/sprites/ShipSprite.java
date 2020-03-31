@@ -12,7 +12,7 @@ public class ShipSprite extends Sprite {
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
 
-  public ShipSprite(Texture texture) throws GameException {
+  public ShipSprite(TextureRegion texture) throws GameException {
     super(new TextureRegion(texture));
   }
 

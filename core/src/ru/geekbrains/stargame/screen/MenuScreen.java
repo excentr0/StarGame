@@ -3,8 +3,8 @@ package ru.geekbrains.stargame.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
@@ -15,9 +15,8 @@ import ru.geekbrains.stargame.sprites.ButtonPlay;
 
 public class MenuScreen extends BaseScreen {
   private final Game game;
-  private Texture background;
   private BackgroundSprite backgroundSprite;
-  private TextureAtlas atlas;
+  private TextureAtlas menuAtlas;
   private ButtonExit buttonExit;
   private ButtonPlay buttonPlay;
 
@@ -28,12 +27,16 @@ public class MenuScreen extends BaseScreen {
   @Override
   public void show() {
     super.show();
-    background = new Texture("space.png");
-    atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.tpack"));
+
+    menuAtlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
+
+    final TextureAtlas gameAtlas = new TextureAtlas("StarGame.pack");
+    final TextureRegion background = gameAtlas.findRegion("background");
+
     try {
       backgroundSprite = new BackgroundSprite(background);
-      buttonExit = new ButtonExit(atlas);
-      buttonPlay = new ButtonPlay(atlas, game);
+      buttonExit = new ButtonExit(menuAtlas);
+      buttonPlay = new ButtonPlay(menuAtlas, game);
     } catch (GameException e) {
       throw new RuntimeException(e);
     }
@@ -53,8 +56,7 @@ public class MenuScreen extends BaseScreen {
 
   @Override
   public void dispose() {
-    background.dispose();
-    atlas.dispose();
+    menuAtlas.dispose();
     super.dispose();
   }
 
