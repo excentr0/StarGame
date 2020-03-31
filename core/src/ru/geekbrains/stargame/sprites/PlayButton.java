@@ -7,11 +7,11 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.screen.GameScreen;
 
-public class ButtonPlay extends ScaledButton {
+public class PlayButton extends ScaledButton {
 
   private final Game game;
 
-  public ButtonPlay(TextureAtlas atlas, Game game) throws GameException {
+  public PlayButton(TextureAtlas atlas, Game game) throws GameException {
     super(atlas.findRegion("btPlay"));
     this.game = game;
   }

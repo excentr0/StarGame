@@ -3,7 +3,6 @@ package ru.geekbrains.stargame.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
@@ -24,12 +23,10 @@ public class GameScreen extends BaseScreen {
     super.show();
 
     gameAtlas = new TextureAtlas("StarGame.atlas");
-    final TextureRegion background = gameAtlas.findRegion("background");
-    final TextureRegion smallShip = gameAtlas.findRegion("ship");
 
     try {
-      shipSprite = new ShipSprite(smallShip);
-      backgroundSprite = new BackgroundSprite(background);
+      shipSprite = new ShipSprite(gameAtlas);
+      backgroundSprite = new BackgroundSprite(gameAtlas);
       asteroids = new AsteroidSprite[ASTEROID_COUNT];
 
       for (int i = 0; i < ASTEROID_COUNT; i++) {

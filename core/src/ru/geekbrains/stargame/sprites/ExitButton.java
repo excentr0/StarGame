@@ -6,9 +6,9 @@ import ru.geekbrains.stargame.base.ScaledButton;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 
-public class ButtonExit extends ScaledButton {
+public class ExitButton extends ScaledButton {
 
-  public ButtonExit(TextureAtlas atlas) throws GameException {
+  public ExitButton(TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("btExit"));
   }
 

@@ -1,6 +1,6 @@
 package ru.geekbrains.stargame.sprites;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Sprite;
 import ru.geekbrains.stargame.exceptions.GameException;
@@ -11,8 +11,8 @@ public class ShipSprite extends Sprite {
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
 
-  public ShipSprite(TextureRegion texture) throws GameException {
-    super(new TextureRegion(texture));
+  public ShipSprite(TextureAtlas atlas) throws GameException {
+    super(atlas.findRegion("ship", 1));
   }
 
   @Override

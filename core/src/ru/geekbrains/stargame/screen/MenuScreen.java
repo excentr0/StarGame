@@ -4,14 +4,13 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.sprites.BackgroundSprite;
-import ru.geekbrains.stargame.sprites.ButtonExit;
-import ru.geekbrains.stargame.sprites.ButtonPlay;
+import ru.geekbrains.stargame.sprites.ExitButton;
+import ru.geekbrains.stargame.sprites.PlayButton;
 
 public class MenuScreen extends BaseScreen {
   private final Game game;
@@ -19,8 +18,8 @@ public class MenuScreen extends BaseScreen {
   private BackgroundSprite backgroundSprite;
   private TextureAtlas menuAtlas;
   private TextureAtlas gameAtlas;
-  private ButtonExit buttonExit;
-  private ButtonPlay buttonPlay;
+  private ExitButton exitButton;
+  private PlayButton playButton;
 
   public MenuScreen(final Game game) {
     this.game = game;
@@ -31,14 +30,12 @@ public class MenuScreen extends BaseScreen {
     super.show();
 
     menuAtlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
-
-    gameAtlas = new TextureAtlas("StarGame.atlas");
-    final TextureRegion background = gameAtlas.findRegion("background");
+    gameAtlas = new TextureAtlas(Gdx.files.internal("StarGame.atlas"));
 
     try {
-      backgroundSprite = new BackgroundSprite(background);
-      buttonExit = new ButtonExit(menuAtlas);
-      buttonPlay = new ButtonPlay(menuAtlas, game);
+      backgroundSprite = new BackgroundSprite(gameAtlas);
+      exitButton = new ExitButton(menuAtlas);
+      playButton = new PlayButton(menuAtlas, game);
     } catch (GameException e) {
       throw new RuntimeException(e);
     }
@@ -52,8 +49,8 @@ public class MenuScreen extends BaseScreen {
   @Override
   public void resize(final Rect worldBounds) {
     backgroundSprite.resize(worldBounds);
-    buttonExit.resize(worldBounds);
-    buttonPlay.resize(worldBounds);
+    exitButton.resize(worldBounds);
+    playButton.resize(worldBounds);
   }
 
   @Override
@@ -75,15 +72,15 @@ public class MenuScreen extends BaseScreen {
 
   @Override
   public boolean touchUp(final Vector2 touch, final int pointer, final int button) {
-    buttonExit.touchUp(touch, pointer, button);
-    buttonPlay.touchUp(touch, pointer, button);
+    exitButton.touchUp(touch, pointer, button);
+    playButton.touchUp(touch, pointer, button);
     return false;
   }
 
   @Override
   public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
-    buttonExit.touchDown(touch, pointer, button);
-    buttonPlay.touchDown(touch, pointer, button);
+    exitButton.touchDown(touch, pointer, button);
+    playButton.touchDown(touch, pointer, button);
     return false;
   }
 
@@ -92,8 +89,8 @@ public class MenuScreen extends BaseScreen {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
     backgroundSprite.draw(batch);
-    buttonPlay.draw(batch);
-    buttonExit.draw(batch);
+    playButton.draw(batch);
+    exitButton.draw(batch);
     batch.end();
   }
 }
