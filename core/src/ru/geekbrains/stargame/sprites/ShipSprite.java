@@ -1,5 +1,7 @@
 package ru.geekbrains.stargame.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Sprite;
@@ -19,7 +21,30 @@ public class ShipSprite extends Sprite {
   public void update(final float delta) {
     if (newPosition.dst(position) > 0.001f) {
       position.mulAdd(dir, delta * speed);
+    } else {
+      dir.setZero();
     }
+
+    final boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
+    final boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
+    final boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
+    final boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+
+    float speedX = speed * delta;
+    if (left) {
+      speedX *= -1f;
+    } else {
+      speedX *= right ? 1f : 0f;
+    }
+
+    float speedY = speed * delta;
+    if (down) {
+      speedY *= -1f;
+    } else {
+      speedY *= up ? 1f : 0f;
+    }
+
+    position.add(speedX, speedY);
   }
 
   @Override
