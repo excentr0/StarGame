@@ -24,7 +24,7 @@ public class ShipSprite extends Sprite {
     } else {
       dir.setZero();
     }
-
+    // TODO если нажать на стрелку во время движения корабля, то корабль движется не по алгоритму
     final boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
     final boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     final boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
