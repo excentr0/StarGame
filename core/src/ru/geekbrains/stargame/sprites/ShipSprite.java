@@ -21,7 +21,7 @@ public class ShipSprite extends Sprite {
   @Override
   public void update(final float delta) {
     // Как далеко может сместиться спрайт за дельту
-    maxDistance = speed * Gdx.graphics.getDeltaTime();
+    maxDistance = speed * delta;
     if (newPosition.dst(position) >= maxDistance) {
       position.mulAdd(dir, delta * speed);
     } else {
