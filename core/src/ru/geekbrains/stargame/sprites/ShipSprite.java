@@ -19,11 +19,14 @@ public class ShipSprite extends Sprite {
 
   @Override
   public void update(final float delta) {
-    if (newPosition.dst(position) > 0.001f) {
+    // Как далеко может сместиться спрайт за дельту
+    float maxDistance = speed * Gdx.graphics.getDeltaTime();
+    if (newPosition.dst(position) >= maxDistance) {
       position.mulAdd(dir, delta * speed);
     } else {
       dir.setZero();
     }
+
     final boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
     final boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
     final boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
