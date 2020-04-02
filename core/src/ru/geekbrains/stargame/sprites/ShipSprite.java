@@ -23,7 +23,7 @@ public class ShipSprite extends Sprite {
     // Как далеко может сместиться спрайт за дельту
     maxDistance = speed * delta;
     if (newPosition.dst(position) >= maxDistance) {
-      position.mulAdd(dir, delta * speed);
+      position.mulAdd(dir, maxDistance);
     } else {
       dir.setZero();
     }
