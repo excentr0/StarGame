@@ -8,7 +8,7 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 
 public class ShipSprite extends Sprite {
-  private final float speed = 0.1f;
+  private final float speed;
 
   private boolean up = false;
   private boolean right = false;
@@ -21,6 +21,7 @@ public class ShipSprite extends Sprite {
 
   public ShipSprite(TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("ship", 1));
+    speed = 0.1f;
   }
 
   /**
@@ -31,13 +32,8 @@ public class ShipSprite extends Sprite {
   @Override
   public void update(final float delta) {
 
-    float speedX = 1f;
-    float speedY = 1f;
-
-    speedX *= left ? -1f : right ? 1f : 0f;
-    speedY *= down ? -1f : up ? 1f : 0f;
-
-    dir.set(speedX, speedY);
+    // вычисляем только если нажата какая-то клавиша
+    updateIfKeyPressed();
 
     // Как далеко может сместиться спрайт за дельту
     maxDistance = speed * delta;
@@ -45,6 +41,14 @@ public class ShipSprite extends Sprite {
       position.mulAdd(dir, maxDistance);
     } else {
       dir.setZero();
+    }
+  }
+
+  private void updateIfKeyPressed() {
+    if (left || right || up || down) {
+      float speedX = left ? -1f : right ? 1f : 0f;
+      float speedY = down ? -1f : up ? 1f : 0f;
+      dir.set(speedX, speedY);
     }
   }
 
