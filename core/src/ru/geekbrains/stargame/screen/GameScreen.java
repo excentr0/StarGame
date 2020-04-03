@@ -79,6 +79,16 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
+  public boolean keyDown(int keycode) {
+    return shipSprite.keyDown(keycode);
+  }
+
+  @Override
+  public boolean keyUp(int keycode) {
+    return shipSprite.keyUp(keycode);
+  }
+
+  @Override
   public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
     shipSprite.touchDown(touch, pointer, button);
     return false;

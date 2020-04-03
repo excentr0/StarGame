@@ -1,7 +1,6 @@
 package ru.geekbrains.stargame.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Sprite;
@@ -10,16 +9,36 @@ import ru.geekbrains.stargame.math.Rect;
 
 public class ShipSprite extends Sprite {
   private final float speed = 0.1f;
+
+  private boolean up = false;
+  private boolean right = false;
+  private boolean down = false;
+  private boolean left = false;
+  private float maxDistance;
+
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
-  private float maxDistance;
 
   public ShipSprite(TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("ship", 1));
   }
 
+  /**
+   * обновляем позицию корабля
+   *
+   * @param delta дельта времени
+   */
   @Override
   public void update(final float delta) {
+
+    float speedX = 1f;
+    float speedY = 1f;
+
+    speedX *= left ? -1f : right ? 1f : 0f;
+    speedY *= down ? -1f : up ? 1f : 0f;
+
+    dir.set(speedX, speedY);
+
     // Как далеко может сместиться спрайт за дельту
     maxDistance = speed * delta;
     if (newPosition.dst(position) >= maxDistance) {
@@ -27,27 +46,49 @@ public class ShipSprite extends Sprite {
     } else {
       dir.setZero();
     }
+  }
 
-    final boolean left = Gdx.input.isKeyPressed(Input.Keys.LEFT);
-    final boolean right = Gdx.input.isKeyPressed(Input.Keys.RIGHT);
-    final boolean up = Gdx.input.isKeyPressed(Input.Keys.UP);
-    final boolean down = Gdx.input.isKeyPressed(Input.Keys.DOWN);
+  /**
+   * Обрабатывает нажатие кнопок стрелок
+   *
+   * @param keycode код нажатой клавиши
+   */
+  public boolean keyDown(int keycode) {
 
-    float speedX = speed * delta;
-    if (left) {
-      speedX *= -1f;
-    } else {
-      speedX *= right ? 1f : 0f;
+    if (keycode == Keys.LEFT) {
+      left = true;
+    } else if (keycode == Keys.RIGHT) {
+      right = true;
+    } else if (keycode == Keys.UP) {
+      up = true;
+    } else if (keycode == Keys.DOWN) {
+      down = true;
     }
 
-    float speedY = speed * delta;
-    if (down) {
-      speedY *= -1f;
-    } else {
-      speedY *= up ? 1f : 0f;
-    }
+    return false;
+  }
 
-    position.add(speedX, speedY);
+  /**
+   * Обрабатывает отпускание клавиш
+   *
+   * @param keycode код отпущенной клавиши
+   */
+  public boolean keyUp(int keycode) {
+    if (keycode == Keys.LEFT) {
+      left = false;
+    } else if (keycode == Keys.RIGHT) {
+      right = false;
+    } else if (keycode == Keys.UP) {
+      up = false;
+    } else if (keycode == Keys.DOWN) {
+      down = false;
+    }
+    System.out.println(keycode + " is keyUp");
+    // Обнуляем вектор, если все клавиши стрелок отпущены
+    if (!up && !down && !left && !right) {
+      dir.setZero();
+    }
+    return false;
   }
 
   @Override
