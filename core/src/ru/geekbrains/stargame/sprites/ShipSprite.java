@@ -8,20 +8,18 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 
 public class ShipSprite extends Sprite {
-  private final float speed;
 
   private boolean up = false;
   private boolean right = false;
   private boolean down = false;
   private boolean left = false;
-  private float maxDistance;
 
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
+  private Rect worldBounds = new Rect();
 
   public ShipSprite(TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("ship", 1));
-    speed = 0.1f;
   }
 
   /**
@@ -33,23 +31,41 @@ public class ShipSprite extends Sprite {
   public void update(final float delta) {
 
     // вычисляем только если нажата какая-то клавиша
-    updateIfKeyPressed();
+    boolean anyKeyPressed = left || right || up || down;
+    if (anyKeyPressed) {
+      float speedX = left ? -1f : right ? 1f : 0f;
+      float speedY = down ? -1f : up ? 1f : 0f;
+      dir.set(speedX, speedY);
+    }
 
     // Как далеко может сместиться спрайт за дельту
-    maxDistance = speed * delta;
-    if (newPosition.dst(position) >= maxDistance) {
+    final float speed = 0.1f;
+    final float maxDistance = speed * delta;
+    if (newPosition.dst(position) >= maxDistance || anyKeyPressed) {
       position.mulAdd(dir, maxDistance);
     } else {
       dir.setZero();
     }
   }
 
-  private void updateIfKeyPressed() {
-    if (left || right || up || down) {
-      float speedX = left ? -1f : right ? 1f : 0f;
-      float speedY = down ? -1f : up ? 1f : 0f;
-      dir.set(speedX, speedY);
-    }
+  @Override
+  public void resize(final Rect worldBounds) {
+    this.worldBounds = worldBounds;
+    this.position.set(worldBounds.position).sub(0, 0.2f);
+    this.setHeightProportion(0.07f);
+  }
+
+  /**
+   * Вычисляем вектор направления от текущей позиции корабля к точке касания экрана
+   *
+   * @param touch вектор касания экрана
+   * @return false
+   */
+  @Override
+  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+    newPosition = touch.cpy();
+    dir.set(touch.sub(position).nor());
+    return false;
   }
 
   /**
@@ -68,7 +84,6 @@ public class ShipSprite extends Sprite {
     } else if (keycode == Keys.DOWN) {
       down = true;
     }
-
     return false;
   }
 
@@ -92,25 +107,6 @@ public class ShipSprite extends Sprite {
     if (!up && !down && !left && !right) {
       dir.setZero();
     }
-    return false;
-  }
-
-  @Override
-  public void resize(final Rect worldBounds) {
-    this.position.set(worldBounds.position).sub(0, 0.2f);
-    this.setHeightProportion(0.07f);
-  }
-
-  /**
-   * Вычисляем вектор направления от текущей позиции корабля к точке касания экрана
-   *
-   * @param touch вектор касания экрана
-   * @return false
-   */
-  @Override
-  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
-    newPosition = touch.cpy();
-    dir.set(touch.sub(position).nor());
     return false;
   }
 }

@@ -39,12 +39,12 @@ public class GameScreen extends BaseScreen {
 
   @Override
   public void render(float delta) {
-    shipSprite.update(delta);
     update(delta);
     draw();
   }
 
   private void update(final float delta) {
+    shipSprite.update(delta);
     for (AsteroidSprite asteroidSprite : asteroids) {
       asteroidSprite.update(delta);
     }
