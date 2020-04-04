@@ -4,6 +4,8 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import ru.geekbrains.stargame.base.Sprite;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
@@ -34,6 +36,20 @@ public class MainShip extends Sprite {
     bulletV = new Vector2(0, 0.5f);
     v0 = new Vector2(0.5f, 0);
     v = new Vector2();
+    Timer.schedule(
+        new Task() {
+          @Override
+          public void run() {
+            shoot();
+          }
+        },
+        1L,
+        0.2f);
+  }
+
+  public void shoot() {
+    Bullet bullet = bulletPool.obtain();
+    bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
   }
 
   /**
@@ -99,11 +115,6 @@ public class MainShip extends Sprite {
       down = true;
     }
     return false;
-  }
-
-  public void shoot() {
-    Bullet bullet = bulletPool.obtain();
-    bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
   }
 
   /**
