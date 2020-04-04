@@ -7,10 +7,11 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.sprites.BackgroundSprite;
 import ru.geekbrains.stargame.sprites.BigAsteroidSprite;
+import ru.geekbrains.stargame.sprites.MainShip;
 import ru.geekbrains.stargame.sprites.MediumAsteroidSprite;
-import ru.geekbrains.stargame.sprites.ShipSprite;
 import ru.geekbrains.stargame.sprites.SmallAsteroidSprite;
 
 public class GameScreen extends BaseScreen {
@@ -19,20 +20,24 @@ public class GameScreen extends BaseScreen {
   private static final int SMALL_ASTEROID_COUNT = 10;
 
   private TextureAtlas gameAtlas;
-  private ShipSprite shipSprite;
+  private MainShip mainShip;
   private BackgroundSprite backgroundSprite;
   private BigAsteroidSprite[] bigAsteroids;
   private MediumAsteroidSprite[] mediumAsteroids;
   private SmallAsteroidSprite[] smallAsteroids;
+  private BulletPool bulletPool;
 
   @Override
   public void show() {
     super.show();
-
     gameAtlas = new TextureAtlas("textures/StarGame.atlas");
+    bulletPool = new BulletPool();
+    initSprites();
+  }
 
+  private void initSprites() {
     try {
-      shipSprite = new ShipSprite(gameAtlas);
+      mainShip = new MainShip(gameAtlas, bulletPool);
       backgroundSprite = new BackgroundSprite(gameAtlas);
       bigAsteroids = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
       mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
@@ -57,12 +62,14 @@ public class GameScreen extends BaseScreen {
 
   @Override
   public void render(float delta) {
+    super.render(delta);
     update(delta);
+    freeAllDestroyed();
     draw();
   }
 
   private void update(final float delta) {
-    shipSprite.update(delta);
+    mainShip.update(delta);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) {
       asteroidSprite.update(delta);
     }
@@ -72,6 +79,11 @@ public class GameScreen extends BaseScreen {
     for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) {
       smallAsteroidSprite.update(delta);
     }
+    bulletPool.updateActiveSprites(delta);
+  }
+
+  public void freeAllDestroyed() {
+    bulletPool.freeAllDestroyedActiveObjects();
   }
 
   private void draw() {
@@ -88,13 +100,14 @@ public class GameScreen extends BaseScreen {
     for (BigAsteroidSprite asteroidSprite : bigAsteroids) {
       asteroidSprite.draw(batch);
     }
-    shipSprite.draw(batch);
+    mainShip.draw(batch);
+    bulletPool.drawActiveSprites(batch);
     batch.end();
   }
 
   @Override
   public void resize(final Rect worldBounds) {
-    shipSprite.resize(worldBounds);
+    mainShip.resize(worldBounds);
     backgroundSprite.resize(worldBounds);
     for (BigAsteroidSprite asteroidSprite : bigAsteroids) {
       asteroidSprite.resize(worldBounds);
@@ -111,22 +124,23 @@ public class GameScreen extends BaseScreen {
   public void dispose() {
     batch.dispose();
     gameAtlas.dispose();
+    bulletPool.dispose();
     super.dispose();
   }
 
   @Override
   public boolean keyDown(int keycode) {
-    return shipSprite.keyDown(keycode);
+    return mainShip.keyDown(keycode);
   }
 
   @Override
   public boolean keyUp(int keycode) {
-    return shipSprite.keyUp(keycode);
+    return mainShip.keyUp(keycode);
   }
 
   @Override
   public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
-    shipSprite.touchDown(touch, pointer, button);
+    mainShip.touchDown(touch, pointer, button);
     return false;
   }
 }

@@ -9,23 +9,26 @@ import ru.geekbrains.stargame.math.Rnd;
 
 public class MediumAsteroidSprite extends Sprite {
 
-  private final float SIZE = Rnd.nextFloat(0.02f, 0.05f);
+  private final float asteroidSize = Rnd.nextFloat(0.02f, 0.05f);
 
-  private Vector2 v;
+  private Vector2 speedVector;
   private Rect worldBounds;
 
   public MediumAsteroidSprite(final TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("asteroid"));
     float vx = Rnd.nextFloat(-0.005f, 0.005f);
     float vy = Rnd.nextFloat(-0.05f, -0.1f);
-    v = new Vector2(vx, vy);
+    speedVector = new Vector2(vx, vy);
   }
 
   @Override
   public void update(float delta) {
-    // Делаем разную скорость движения астероидов
-    position.mulAdd(v, delta);
+    position.mulAdd(speedVector, delta);
 
+    checkBounds();
+  }
+
+  private void checkBounds() {
     if (getTop() < worldBounds.getBottom()) {
       setBottom(worldBounds.getTop());
     }
@@ -40,7 +43,7 @@ public class MediumAsteroidSprite extends Sprite {
   @Override
   public void resize(Rect worldBounds) {
     this.worldBounds = worldBounds;
-    setHeightProportion(SIZE);
+    setHeightProportion(asteroidSize);
     float posX = Rnd.nextFloat(worldBounds.getLeft(), worldBounds.getRight());
     float posY = Rnd.nextFloat(worldBounds.getBottom(), worldBounds.getTop());
     this.position.set(posX, posY);

@@ -2,24 +2,38 @@ package ru.geekbrains.stargame.sprites;
 
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Sprite;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.pool.BulletPool;
 
-public class ShipSprite extends Sprite {
+public class MainShip extends Sprite {
 
+  private static final float BOTTOM_MARGIN = 0.05f;
+  private static final float shipHeight = 0.07f;
+
+  private Vector2 bulletV;
+  private Vector2 v0;
+  private Vector2 v;
+  private BulletPool bulletPool;
   private boolean up = false;
   private boolean right = false;
   private boolean down = false;
   private boolean left = false;
-
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
   private Rect worldBounds = new Rect();
+  private TextureRegion bulletRegion;
 
-  public ShipSprite(TextureAtlas atlas) throws GameException {
+  public MainShip(TextureAtlas atlas, BulletPool bulletPool) throws GameException {
     super(atlas.findRegion("ship", 1));
+    this.bulletPool = bulletPool;
+    bulletRegion = atlas.findRegion("laserGreen01");
+    bulletV = new Vector2(0, 0.5f);
+    v0 = new Vector2(0.5f, 0);
+    v = new Vector2();
   }
 
   /**
@@ -51,8 +65,8 @@ public class ShipSprite extends Sprite {
   @Override
   public void resize(final Rect worldBounds) {
     this.worldBounds = worldBounds;
-    this.position.set(worldBounds.position).sub(0, 0.2f);
-    this.setHeightProportion(0.07f);
+    this.setHeightProportion(shipHeight);
+    setBottom(worldBounds.getBottom() + BOTTOM_MARGIN);
   }
 
   /**
@@ -85,6 +99,11 @@ public class ShipSprite extends Sprite {
       down = true;
     }
     return false;
+  }
+
+  public void shoot() {
+    Bullet bullet = bulletPool.obtain();
+    bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
   }
 
   /**
