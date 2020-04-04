@@ -20,15 +20,16 @@ public class MainShip extends Sprite {
 
   private Vector2 bulletV;
   private BulletPool bulletPool;
-  private boolean up = false;
-  private boolean right = false;
-  private boolean down = false;
-  private boolean left = false;
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
   private Rect worldBounds = new Rect();
   private TextureRegion bulletRegion;
   private Sound laserSound;
+
+  private boolean up = false;
+  private boolean right = false;
+  private boolean down = false;
+  private boolean left = false;
 
   public MainShip(TextureAtlas atlas, BulletPool bulletPool) throws GameException {
     super(atlas.findRegion("ship", 1));
@@ -38,6 +39,7 @@ public class MainShip extends Sprite {
     bulletV = new Vector2(0, 0.5f);
     laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
 
+    // Таймер стрельбы
     Timer.schedule(
         new Task() {
           @Override
@@ -49,6 +51,7 @@ public class MainShip extends Sprite {
         0.2f);
   }
 
+  /** Стреляем */
   public void shoot() {
     Bullet bullet = bulletPool.obtain();
     bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
@@ -86,12 +89,25 @@ public class MainShip extends Sprite {
    */
   private void checkPressedButton(final boolean anyKeyPressed) {
     if (anyKeyPressed) {
-      float speedX = left ? -1f : right ? 1f : 0f;
-      float speedY = down ? -1f : up ? 1f : 0f;
+      float speedX;
+      float speedY;
+
+      if (left) {
+        speedX = -1f;
+      } else {
+        speedX = right ? 1f : 0f;
+      }
+
+      if (down) {
+        speedY = -1f;
+      } else {
+        speedY = up ? 1f : 0f;
+      }
       dir.set(speedX, speedY);
     }
   }
 
+  /** Останавливаем корабль */
   private void stop() {
     dir.setZero();
   }
