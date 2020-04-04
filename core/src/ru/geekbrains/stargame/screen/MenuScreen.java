@@ -30,7 +30,7 @@ public class MenuScreen extends BaseScreen {
     super.show();
 
     menuAtlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
-    gameAtlas = new TextureAtlas(Gdx.files.internal("StarGame.atlas"));
+    gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
 
     try {
       backgroundSprite = new BackgroundSprite(gameAtlas);
