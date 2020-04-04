@@ -3,6 +3,7 @@ package ru.geekbrains.stargame.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
@@ -19,6 +20,11 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   private Rect glBounds;
   private Matrix4 worldToGl;
   private Matrix3 screenToWorld;
+
+  public BaseScreen() {
+    final Music music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+    music.play();
+  }
 
   @Override
   public void show() {

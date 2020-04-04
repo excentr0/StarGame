@@ -1,6 +1,8 @@
 package ru.geekbrains.stargame.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -26,6 +28,7 @@ public class MainShip extends Sprite {
   private Vector2 dir = new Vector2();
   private Rect worldBounds = new Rect();
   private TextureRegion bulletRegion;
+  private Sound laserSound;
 
   public MainShip(TextureAtlas atlas, BulletPool bulletPool) throws GameException {
     super(atlas.findRegion("ship", 1));
@@ -33,6 +36,7 @@ public class MainShip extends Sprite {
 
     bulletRegion = atlas.findRegion("laserGreen01");
     bulletV = new Vector2(0, 0.5f);
+    laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
 
     Timer.schedule(
         new Task() {
@@ -48,6 +52,7 @@ public class MainShip extends Sprite {
   public void shoot() {
     Bullet bullet = bulletPool.obtain();
     bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
+    laserSound.play(1f);
   }
 
   /**
