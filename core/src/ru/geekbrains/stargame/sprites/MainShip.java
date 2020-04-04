@@ -14,11 +14,9 @@ import ru.geekbrains.stargame.pool.BulletPool;
 public class MainShip extends Sprite {
 
   private static final float BOTTOM_MARGIN = 0.05f;
-  private static final float shipHeight = 0.07f;
+  private static final float SHIP_HEIGHT = 0.07f;
 
   private Vector2 bulletV;
-  private Vector2 v0;
-  private Vector2 v;
   private BulletPool bulletPool;
   private boolean up = false;
   private boolean right = false;
@@ -32,10 +30,10 @@ public class MainShip extends Sprite {
   public MainShip(TextureAtlas atlas, BulletPool bulletPool) throws GameException {
     super(atlas.findRegion("ship", 1));
     this.bulletPool = bulletPool;
+
     bulletRegion = atlas.findRegion("laserGreen01");
     bulletV = new Vector2(0, 0.5f);
-    v0 = new Vector2(0.5f, 0);
-    v = new Vector2();
+
     Timer.schedule(
         new Task() {
           @Override
@@ -62,11 +60,7 @@ public class MainShip extends Sprite {
 
     // вычисляем только если нажата какая-то клавиша
     boolean anyKeyPressed = left || right || up || down;
-    if (anyKeyPressed) {
-      float speedX = left ? -1f : right ? 1f : 0f;
-      float speedY = down ? -1f : up ? 1f : 0f;
-      dir.set(speedX, speedY);
-    }
+    checkPressedButton(anyKeyPressed);
 
     // Как далеко может сместиться спрайт за дельту
     final float speed = 0.1f;
@@ -74,14 +68,53 @@ public class MainShip extends Sprite {
     if (newPosition.dst(position) >= maxDistance || anyKeyPressed) {
       position.mulAdd(dir, maxDistance);
     } else {
-      dir.setZero();
+      stop();
+    }
+
+    checkBounds();
+  }
+
+  /**
+   * Проверяем какие из стрелок нажаты
+   *
+   * @param anyKeyPressed нажата ли какая-то стрелка
+   */
+  private void checkPressedButton(final boolean anyKeyPressed) {
+    if (anyKeyPressed) {
+      float speedX = left ? -1f : right ? 1f : 0f;
+      float speedY = down ? -1f : up ? 1f : 0f;
+      dir.set(speedX, speedY);
+    }
+  }
+
+  private void stop() {
+    dir.setZero();
+  }
+
+  /** Проверим, что бы корабль не вылетел за пределы экрана */
+  private void checkBounds() {
+    if (getLeft() < worldBounds.getLeft()) {
+      setLeft(worldBounds.getLeft());
+      stop();
+    }
+    if (getRight() > worldBounds.getRight()) {
+      setRight(worldBounds.getRight());
+      stop();
+    }
+    if (getTop() > worldBounds.getTop()) {
+      setTop(worldBounds.getTop());
+      stop();
+    }
+    if (getBottom() < worldBounds.getBottom()) {
+      setBottom(worldBounds.getBottom());
+      stop();
     }
   }
 
   @Override
   public void resize(final Rect worldBounds) {
     this.worldBounds = worldBounds;
-    this.setHeightProportion(shipHeight);
+    this.setHeightProportion(SHIP_HEIGHT);
     setBottom(worldBounds.getBottom() + BOTTOM_MARGIN);
   }
 
@@ -135,7 +168,7 @@ public class MainShip extends Sprite {
     System.out.println(keycode + " is keyUp");
     // Обнуляем вектор, если все клавиши стрелок отпущены
     if (!up && !down && !left && !right) {
-      dir.setZero();
+      stop();
     }
     return false;
   }
