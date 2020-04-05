@@ -35,9 +35,7 @@ public class Bullet extends Sprite {
   @Override
   public void update(float delta) {
     position.mulAdd(speedVector, delta);
-    if (isOutside(worldBounds)) {
-      destroy();
-    }
+    if (isOutside(worldBounds)) destroy();
   }
 
   public int getDamage() {

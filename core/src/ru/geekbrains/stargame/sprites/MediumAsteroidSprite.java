@@ -29,15 +29,9 @@ public class MediumAsteroidSprite extends Sprite {
   }
 
   private void checkBounds() {
-    if (getTop() < worldBounds.getBottom()) {
-      setBottom(worldBounds.getTop());
-    }
-    if (getLeft() > worldBounds.getRight()) {
-      setRight(worldBounds.getLeft());
-    }
-    if (getRight() < worldBounds.getLeft()) {
-      setLeft(worldBounds.getRight());
-    }
+    if (getTop() < worldBounds.getBottom()) setBottom(worldBounds.getTop());
+    if (getLeft() > worldBounds.getRight()) setRight(worldBounds.getLeft());
+    if (getRight() < worldBounds.getLeft()) setLeft(worldBounds.getRight());
   }
 
   @Override

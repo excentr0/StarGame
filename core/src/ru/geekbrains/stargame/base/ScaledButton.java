@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.exceptions.GameException;
 
 public abstract class ScaledButton extends Sprite {
-  private static final float SCALE = 0.9f;
+  private static final float BUTTON_SCALE = 0.9f;
 
   private int pointer;
   private boolean pressed;
@@ -20,9 +20,9 @@ public abstract class ScaledButton extends Sprite {
       return false;
     }
     this.pointer = pointer;
-    scale = SCALE;
+    scale = BUTTON_SCALE;
     pressed = true;
-    return false;
+    return true;
   }
 
   @Override
@@ -35,7 +35,7 @@ public abstract class ScaledButton extends Sprite {
     }
     pressed = false;
     scale = 1f;
-    return false;
+    return true;
   }
 
   public abstract void action();

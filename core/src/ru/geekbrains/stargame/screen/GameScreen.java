@@ -43,17 +43,14 @@ public class GameScreen extends BaseScreen {
       mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
       smallAsteroids = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
 
-      for (int i = 0; i < BIG_ASTEROID_COUNT; i++) {
+      for (int i = 0; i < BIG_ASTEROID_COUNT; i++)
         bigAsteroids[i] = new BigAsteroidSprite(gameAtlas);
-      }
 
-      for (int i = 0; i < MED_ASTEROID_COUNT; i++) {
+      for (int i = 0; i < MED_ASTEROID_COUNT; i++)
         mediumAsteroids[i] = new MediumAsteroidSprite(gameAtlas);
-      }
 
-      for (int i = 0; i < SMALL_ASTEROID_COUNT; i++) {
+      for (int i = 0; i < SMALL_ASTEROID_COUNT; i++)
         smallAsteroids[i] = new SmallAsteroidSprite(gameAtlas);
-      }
 
     } catch (GameException e) {
       throw new RuntimeException(e);
@@ -70,15 +67,11 @@ public class GameScreen extends BaseScreen {
 
   private void update(final float delta) {
     mainShip.update(delta);
-    for (final BigAsteroidSprite asteroidSprite : bigAsteroids) {
-      asteroidSprite.update(delta);
-    }
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids) {
+    for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.update(delta);
+    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.update(delta);
-    }
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) {
+    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.update(delta);
-    }
     bulletPool.updateActiveSprites(delta);
   }
 
@@ -91,15 +84,11 @@ public class GameScreen extends BaseScreen {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
     backgroundSprite.draw(batch);
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) {
+    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.draw(batch);
-    }
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids) {
+    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.draw(batch);
-    }
-    for (BigAsteroidSprite asteroidSprite : bigAsteroids) {
-      asteroidSprite.draw(batch);
-    }
+    for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
     mainShip.draw(batch);
     bulletPool.drawActiveSprites(batch);
     batch.end();
@@ -109,15 +98,11 @@ public class GameScreen extends BaseScreen {
   public void resize(final Rect worldBounds) {
     mainShip.resize(worldBounds);
     backgroundSprite.resize(worldBounds);
-    for (BigAsteroidSprite asteroidSprite : bigAsteroids) {
-      asteroidSprite.resize(worldBounds);
-    }
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids) {
+    for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.resize(worldBounds);
+    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.resize(worldBounds);
-    }
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) {
+    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.resize(worldBounds);
-    }
   }
 
   @Override

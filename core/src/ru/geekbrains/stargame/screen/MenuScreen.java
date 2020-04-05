@@ -32,6 +32,10 @@ public class MenuScreen extends BaseScreen {
     menuAtlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.pack"));
     gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
 
+    initSprites();
+  }
+
+  private void initSprites() {
     try {
       backgroundSprite = new BackgroundSprite(gameAtlas);
       exitButton = new ExitButton(menuAtlas);
@@ -58,16 +62,6 @@ public class MenuScreen extends BaseScreen {
     menuAtlas.dispose();
     gameAtlas.dispose();
     super.dispose();
-  }
-
-  @Override
-  public boolean keyDown(final int keycode) {
-    return super.keyDown(keycode);
-  }
-
-  @Override
-  public boolean keyUp(final int keycode) {
-    return super.keyUp(keycode);
   }
 
   @Override

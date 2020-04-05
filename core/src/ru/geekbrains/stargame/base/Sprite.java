@@ -15,9 +15,7 @@ public class Sprite extends Rect {
   private boolean destroyed = false;
 
   public Sprite(TextureRegion region) throws GameException {
-    if (region == null) {
-      throw new GameException("Region is null");
-    }
+    if (region == null) throw new GameException("Region is null");
     regions = new TextureRegion[1];
     regions[0] = region;
   }
