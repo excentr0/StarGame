@@ -24,6 +24,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
   public BaseScreen() {
     music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+    music.setLooping(true);
     music.play();
   }
 

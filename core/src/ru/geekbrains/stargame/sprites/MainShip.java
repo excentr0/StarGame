@@ -193,4 +193,8 @@ public class MainShip extends Sprite {
     }
     return false;
   }
+
+  public void dispose() {
+    laserSound.dispose();
+  }
 }
