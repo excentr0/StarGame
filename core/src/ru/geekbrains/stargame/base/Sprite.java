@@ -12,14 +12,15 @@ public class Sprite extends Rect {
   protected float scale = 1f;
   protected TextureRegion[] regions;
   protected int frame;
+  private boolean destroyed = false;
 
   public Sprite(TextureRegion region) throws GameException {
-    if (region == null) {
-      throw new GameException("Region is null");
-    }
+    if (region == null) throw new GameException("Region is null");
     regions = new TextureRegion[1];
     regions[0] = region;
   }
+
+  public Sprite() {}
 
   public void setHeightProportion(float height) {
     setHeight(height);
@@ -71,5 +72,17 @@ public class Sprite extends Rect {
 
   public void setScale(float scale) {
     this.scale = scale;
+  }
+
+  public boolean isDestroyed() {
+    return destroyed;
+  }
+
+  public void flushDestroy() {
+    destroyed = false;
+  }
+
+  public void destroy() {
+    destroyed = true;
   }
 }
