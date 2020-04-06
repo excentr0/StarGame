@@ -13,6 +13,7 @@ import ru.geekbrains.stargame.math.Rect;
 
 public abstract class BaseScreen implements Screen, InputProcessor {
 
+  private final Music music;
   protected SpriteBatch batch;
   protected Vector2 touch;
   private Rect screenBounds;
@@ -22,7 +23,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   private Matrix3 screenToWorld;
 
   public BaseScreen() {
-    final Music music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
+    music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
     music.play();
   }
 
@@ -82,6 +83,7 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   @Override
   public void dispose() {
     System.out.println("dispose");
+    music.dispose();
   }
 
   @Override
