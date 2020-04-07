@@ -1,61 +1,38 @@
 package ru.geekbrains.stargame.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
-import ru.geekbrains.stargame.base.Sprite;
+import ru.geekbrains.stargame.base.Ship;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
 
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
 
   private static final float BOTTOM_MARGIN = 0.05f;
   private static final float SHIP_HEIGHT = 0.07f;
 
-  private Vector2 bulletV;
-  private BulletPool bulletPool;
   private Vector2 newPosition = new Vector2();
   private Vector2 dir = new Vector2();
-  private Rect worldBounds = new Rect();
-  private TextureRegion bulletRegion;
-  private Sound laserSound;
 
   private boolean up = false;
   private boolean right = false;
   private boolean down = false;
   private boolean left = false;
 
-  public MainShip(TextureAtlas atlas, BulletPool bulletPool) throws GameException {
+  public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound shootSound)
+      throws GameException {
     super(atlas.findRegion("ship", 1));
     this.bulletPool = bulletPool;
+    this.shootSound = shootSound;
 
-    bulletRegion = atlas.findRegion("laserGreen01");
+    bulletRegion = atlas.findRegion("laserGreen06");
     bulletV = new Vector2(0, 0.5f);
-    laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
-
-    // Таймер стрельбы
-    Timer.schedule(
-        new Task() {
-          @Override
-          public void run() {
-            shoot();
-          }
-        },
-        1L,
-        0.2f);
-  }
-
-  /** Стреляем */
-  public void shoot() {
-    Bullet bullet = bulletPool.obtain();
-    bullet.set(this, bulletRegion, position, bulletV, 0.01f, worldBounds, 1);
-    laserSound.play(1f);
+    bulletHeight = 0.02f;
+    damage = 1;
+    hp = 100;
   }
 
   /**
@@ -195,6 +172,6 @@ public class MainShip extends Sprite {
   }
 
   public void dispose() {
-    laserSound.dispose();
+    shootSound.dispose();
   }
 }
