@@ -32,11 +32,18 @@ public abstract class Ship extends Sprite {
 
   @Override
   public void update(final float delta) {
-    position.mulAdd(v, delta);
-    reloadTimer += delta;
-    if (reloadTimer >= reloadInterval) {
-      reloadTimer = 0f;
-      shoot();
+    if (position.y + getHalfHeight() > worldBounds.getTop()) {
+      position.mulAdd(v, delta * 2);
+      // делаем reloadTimer равным reloadInterval, что бы корабль выстрелил сразу после
+      // полного появления на экране
+      reloadTimer = reloadInterval;
+    } else {
+      position.mulAdd(v, delta);
+      reloadTimer += delta;
+      if (reloadTimer >= reloadInterval) {
+        reloadTimer = 0f;
+        shoot();
+      }
     }
   }
 

@@ -105,8 +105,8 @@ public class GameScreen extends BaseScreen {
       mediumAsteroidSprite.draw(batch);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
     bulletPool.drawActiveSprites(batch);
-    mainShip.draw(batch);
     enemyPool.drawActiveSprites(batch);
+    mainShip.draw(batch);
     batch.end();
   }
 
