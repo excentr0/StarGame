@@ -40,10 +40,10 @@ public class GameScreen extends BaseScreen {
     gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
     laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
     bulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
+    bulletPool = new BulletPool();
     enemyPool = new EnemyPool(bulletPool, worldBounds);
     enemyEmitter = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
 
-    bulletPool = new BulletPool();
     initSprites();
   }
 
@@ -104,8 +104,8 @@ public class GameScreen extends BaseScreen {
     for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.draw(batch);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
-    mainShip.draw(batch);
     bulletPool.drawActiveSprites(batch);
+    mainShip.draw(batch);
     enemyPool.drawActiveSprites(batch);
     batch.end();
   }

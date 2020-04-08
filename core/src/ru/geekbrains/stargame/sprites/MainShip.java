@@ -24,13 +24,17 @@ public class MainShip extends Ship {
 
   public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound shootSound)
       throws GameException {
-    super(atlas.findRegion("ship", 1));
+    super(atlas.findRegion("playerShip1_green"));
     this.bulletPool = bulletPool;
     this.shootSound = shootSound;
 
     bulletRegion = atlas.findRegion("laserGreen06");
     bulletV = new Vector2(0, 0.5f);
+    v0 = new Vector2(0.5f, 0);
+    v = new Vector2();
     bulletHeight = 0.02f;
+    reloadInterval = 0.2f;
+    reloadTimer = reloadInterval;
     damage = 1;
     hp = 100;
   }
@@ -54,6 +58,12 @@ public class MainShip extends Ship {
       position.mulAdd(dir, maxDistance);
     } else {
       stop();
+    }
+    // Стреляем
+    reloadTimer += delta;
+    if (reloadTimer >= reloadInterval) {
+      reloadTimer = 0f;
+      shoot();
     }
 
     checkBounds();
