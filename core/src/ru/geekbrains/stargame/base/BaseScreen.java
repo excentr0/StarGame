@@ -16,8 +16,8 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   private final Music music;
   protected SpriteBatch batch;
   protected Vector2 touch;
+  protected Rect worldBounds;
   private Rect screenBounds;
-  private Rect worldBounds;
   private Rect glBounds;
   private Matrix4 worldToGl;
   private Matrix3 screenToWorld;

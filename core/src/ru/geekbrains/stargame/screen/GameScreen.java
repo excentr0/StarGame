@@ -1,6 +1,7 @@
 package ru.geekbrains.stargame.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -8,11 +9,13 @@ import ru.geekbrains.stargame.base.BaseScreen;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
+import ru.geekbrains.stargame.pool.EnemyPool;
 import ru.geekbrains.stargame.sprites.BackgroundSprite;
 import ru.geekbrains.stargame.sprites.BigAsteroidSprite;
 import ru.geekbrains.stargame.sprites.MainShip;
 import ru.geekbrains.stargame.sprites.MediumAsteroidSprite;
 import ru.geekbrains.stargame.sprites.SmallAsteroidSprite;
+import ru.geekbrains.stargame.utils.EnemyEmitter;
 
 public class GameScreen extends BaseScreen {
   private static final int BIG_ASTEROID_COUNT = 5;
@@ -21,23 +24,32 @@ public class GameScreen extends BaseScreen {
 
   private TextureAtlas gameAtlas;
   private MainShip mainShip;
+  private EnemyPool enemyPool;
+  private EnemyEmitter enemyEmitter;
   private BackgroundSprite backgroundSprite;
   private BigAsteroidSprite[] bigAsteroids;
   private MediumAsteroidSprite[] mediumAsteroids;
   private SmallAsteroidSprite[] smallAsteroids;
   private BulletPool bulletPool;
+  private Sound laserSound;
+  private Sound bulletSound;
 
   @Override
   public void show() {
     super.show();
-    gameAtlas = new TextureAtlas("textures/StarGame.atlas");
+    gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
+    laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+    bulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
     bulletPool = new BulletPool();
+    enemyPool = new EnemyPool(bulletPool, worldBounds);
+    enemyEmitter = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
+
     initSprites();
   }
 
   private void initSprites() {
     try {
-      mainShip = new MainShip(gameAtlas, bulletPool);
+      mainShip = new MainShip(gameAtlas, bulletPool, laserSound);
       backgroundSprite = new BackgroundSprite(gameAtlas);
       bigAsteroids = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
       mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
@@ -73,10 +85,13 @@ public class GameScreen extends BaseScreen {
     for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.update(delta);
     bulletPool.updateActiveSprites(delta);
+    enemyPool.updateActiveSprites(delta);
+    enemyEmitter.generate(delta);
   }
 
   public void freeAllDestroyed() {
     bulletPool.freeAllDestroyedActiveObjects();
+    enemyPool.freeAllDestroyedActiveObjects();
   }
 
   private void draw() {
@@ -89,8 +104,9 @@ public class GameScreen extends BaseScreen {
     for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.draw(batch);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
-    mainShip.draw(batch);
     bulletPool.drawActiveSprites(batch);
+    enemyPool.drawActiveSprites(batch);
+    mainShip.draw(batch);
     batch.end();
   }
 
@@ -110,6 +126,8 @@ public class GameScreen extends BaseScreen {
     batch.dispose();
     gameAtlas.dispose();
     bulletPool.dispose();
+    enemyPool.dispose();
+    bulletSound.dispose();
     mainShip.dispose();
     super.dispose();
   }

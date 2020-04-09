@@ -20,42 +20,42 @@ background
   index: -1
 enemyBlack1
   rotate: false
-  xy: 311, 14
+  xy: 1210, 418
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 enemyBlack2
   rotate: false
-  xy: 404, 410
+  xy: 404, 324
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 enemyBlack3
   rotate: false
-  xy: 1698, 751
+  xy: 404, 152
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 enemyBlack4
   rotate: false
-  xy: 598, 152
+  xy: 609, 160
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 enemyBlack5
   rotate: false
-  xy: 404, 152
+  xy: 1016, 418
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 enemyBlue1
   rotate: false
-  xy: 503, 238
+  xy: 1115, 418
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
@@ -69,63 +69,63 @@ enemyBlue2
   index: -1
 enemyBlue3
   rotate: false
-  xy: 404, 324
+  xy: 1698, 665
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 enemyBlue4
   rotate: false
-  xy: 608, 324
+  xy: 610, 246
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 enemyBlue5
   rotate: false
-  xy: 1698, 665
+  xy: 917, 418
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 enemyGreen1
   rotate: false
-  xy: 503, 152
+  xy: 624, 410
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
   index: -1
 enemyGreen2
   rotate: false
-  xy: 102, 14
+  xy: 404, 410
   size: 104, 84
   orig: 104, 84
   offset: 0, 0
   index: -1
 enemyGreen3
   rotate: false
-  xy: 510, 410
+  xy: 1698, 751
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 enemyGreen4
   rotate: false
-  xy: 598, 238
+  xy: 1327, 332
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 enemyGreen5
   rotate: false
-  xy: 404, 238
+  xy: 719, 418
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
 enemyRed1
   rotate: false
-  xy: 1698, 579
+  xy: 1305, 418
   size: 93, 84
   orig: 93, 84
   offset: 0, 0
@@ -139,140 +139,364 @@ enemyRed2
   index: -1
 enemyRed3
   rotate: false
-  xy: 1926, 937
+  xy: 404, 238
   size: 103, 84
   orig: 103, 84
   offset: 0, 0
   index: -1
 enemyRed4
   rotate: false
-  xy: 615, 410
+  xy: 1510, 340
   size: 82, 84
   orig: 82, 84
   offset: 0, 0
   index: -1
 enemyRed5
   rotate: false
-  xy: 509, 324
+  xy: 818, 418
   size: 97, 84
   orig: 97, 84
   offset: 0, 0
   index: -1
+laserBlue01
+  rotate: false
+  xy: 1771, 367
+  size: 9, 54
+  orig: 9, 54
+  offset: 0, 0
+  index: -1
+laserBlue02
+  rotate: false
+  xy: 455, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserBlue03
+  rotate: false
+  xy: 1803, 720
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserBlue04
+  rotate: false
+  xy: 470, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserBlue05
+  rotate: false
+  xy: 1803, 681
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserBlue06
+  rotate: false
+  xy: 485, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserBlue07
+  rotate: false
+  xy: 1213, 302
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserBlue08
+  rotate: false
+  xy: 744, 293
+  size: 48, 46
+  orig: 48, 46
+  offset: 0, 0
+  index: -1
+laserBlue09
+  rotate: false
+  xy: 794, 293
+  size: 48, 46
+  orig: 48, 46
+  offset: 0, 0
+  index: -1
+laserBlue10
+  rotate: false
+  xy: 1104, 302
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+laserBlue11
+  rotate: false
+  xy: 986, 302
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+laserBlue12
+  rotate: false
+  xy: 1795, 442
+  size: 13, 57
+  orig: 13, 57
+  offset: 0, 0
+  index: -1
+laserBlue13
+  rotate: false
+  xy: 1801, 606
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+laserBlue14
+  rotate: false
+  xy: 693, 187
+  size: 13, 57
+  orig: 13, 57
+  offset: 0, 0
+  index: -1
+laserBlue15
+  rotate: false
+  xy: 533, 98
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+laserBlue16
+  rotate: false
+  xy: 1734, 367
+  size: 13, 54
+  orig: 13, 54
+  offset: 0, 0
+  index: -1
 laserGreen01
   rotate: false
-  xy: 596, 112
+  xy: 1143, 301
   size: 37, 38
   orig: 37, 38
   offset: 0, 0
   index: -1
 laserGreen02
   rotate: false
-  xy: 1804, 864
+  xy: 518, 98
   size: 13, 57
   orig: 13, 57
   offset: 0, 0
   index: -1
 laserGreen03
   rotate: false
-  xy: 682, 206
+  xy: 1782, 364
   size: 9, 57
   orig: 9, 57
   offset: 0, 0
   index: -1
 laserGreen04
   rotate: false
-  xy: 432, 35
+  xy: 500, 36
   size: 13, 37
   orig: 13, 37
   offset: 0, 0
   index: -1
 laserGreen05
   rotate: false
-  xy: 447, 35
+  xy: 1224, 302
   size: 9, 37
   orig: 9, 37
   offset: 0, 0
   index: -1
 laserGreen06
   rotate: false
-  xy: 2031, 964
+  xy: 1804, 864
   size: 13, 57
   orig: 13, 57
   offset: 0, 0
   index: -1
 laserGreen07
   rotate: false
-  xy: 682, 265
+  xy: 1793, 364
   size: 9, 57
   orig: 9, 57
   offset: 0, 0
   index: -1
 laserGreen08
   rotate: false
-  xy: 682, 167
+  xy: 380, 2
   size: 13, 37
   orig: 13, 37
   offset: 0, 0
   index: -1
 laserGreen09
   rotate: false
-  xy: 421, 9
+  xy: 515, 36
   size: 9, 37
   orig: 9, 37
   offset: 0, 0
   index: -1
 laserGreen10
   rotate: false
-  xy: 406, 48
+  xy: 1704, 367
   size: 13, 54
   orig: 13, 54
   offset: 0, 0
   index: -1
 laserGreen11
   rotate: false
-  xy: 421, 48
+  xy: 1749, 367
   size: 9, 54
   orig: 9, 54
   offset: 0, 0
   index: -1
 laserGreen12
   rotate: false
-  xy: 406, 9
+  xy: 410, 36
   size: 13, 37
   orig: 13, 37
   offset: 0, 0
   index: -1
 laserGreen13
   rotate: false
-  xy: 674, 113
+  xy: 1819, 884
   size: 9, 37
   orig: 9, 37
   offset: 0, 0
   index: -1
 laserGreen14
   rotate: false
-  xy: 404, 104
+  xy: 330, 52
   size: 48, 46
   orig: 48, 46
   offset: 0, 0
   index: -1
 laserGreen15
   rotate: false
-  xy: 454, 104
+  xy: 330, 4
   size: 48, 46
   orig: 48, 46
   offset: 0, 0
   index: -1
 laserGreen16
   rotate: false
-  xy: 635, 113
+  xy: 1026, 302
   size: 37, 37
   orig: 37, 37
   offset: 0, 0
   index: -1
+laserRed01
+  rotate: false
+  xy: 1760, 367
+  size: 9, 54
+  orig: 9, 54
+  offset: 0, 0
+  index: -1
+laserRed02
+  rotate: false
+  xy: 395, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserRed03
+  rotate: false
+  xy: 1810, 462
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserRed04
+  rotate: false
+  xy: 425, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserRed05
+  rotate: false
+  xy: 1803, 798
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserRed06
+  rotate: false
+  xy: 440, 36
+  size: 13, 37
+  orig: 13, 37
+  offset: 0, 0
+  index: -1
+laserRed07
+  rotate: false
+  xy: 1803, 759
+  size: 9, 37
+  orig: 9, 37
+  offset: 0, 0
+  index: -1
+laserRed08
+  rotate: false
+  xy: 694, 284
+  size: 48, 46
+  orig: 48, 46
+  offset: 0, 0
+  index: -1
+laserRed09
+  rotate: false
+  xy: 844, 293
+  size: 48, 46
+  orig: 48, 46
+  offset: 0, 0
+  index: -1
+laserRed10
+  rotate: false
+  xy: 694, 246
+  size: 37, 36
+  orig: 37, 36
+  offset: 0, 0
+  index: -1
+laserRed11
+  rotate: false
+  xy: 1065, 302
+  size: 37, 37
+  orig: 37, 37
+  offset: 0, 0
+  index: -1
+laserRed12
+  rotate: false
+  xy: 708, 187
+  size: 13, 57
+  orig: 13, 57
+  offset: 0, 0
+  index: -1
+laserRed13
+  rotate: false
+  xy: 723, 187
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+laserRed14
+  rotate: false
+  xy: 380, 41
+  size: 13, 57
+  orig: 13, 57
+  offset: 0, 0
+  index: -1
+laserRed15
+  rotate: false
+  xy: 1693, 361
+  size: 9, 57
+  orig: 9, 57
+  offset: 0, 0
+  index: -1
+laserRed16
+  rotate: false
+  xy: 1719, 367
+  size: 13, 54
+  orig: 13, 54
+  offset: 0, 0
+  index: -1
 meteorBrown_big1
   rotate: false
-  xy: 208, 14
+  xy: 1698, 579
   size: 101, 84
   orig: 101, 84
   offset: 0, 0
@@ -286,7 +510,7 @@ meteorBrown_big2
   index: -1
 meteorBrown_big3
   rotate: false
-  xy: 1698, 495
+  xy: 1603, 420
   size: 89, 82
   orig: 89, 82
   offset: 0, 0
@@ -300,44 +524,191 @@ meteorBrown_big4
   index: -1
 meteorBrown_med1
   rotate: false
-  xy: 504, 107
+  xy: 894, 296
   size: 43, 43
   orig: 43, 43
   offset: 0, 0
   index: -1
 meteorBrown_med3
   rotate: false
-  xy: 549, 110
+  xy: 939, 299
   size: 45, 40
   orig: 45, 40
   offset: 0, 0
   index: -1
 meteorBrown_small1
   rotate: false
-  xy: 432, 74
+  xy: 509, 157
   size: 28, 28
   orig: 28, 28
   offset: 0, 0
   index: -1
 meteorBrown_small2
   rotate: false
-  xy: 462, 76
+  xy: 1182, 313
   size: 29, 26
   orig: 29, 26
   offset: 0, 0
   index: -1
 meteorBrown_tiny1
   rotate: false
-  xy: 432, 15
+  xy: 102, 2
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 meteorBrown_tiny2
   rotate: false
-  xy: 1820, 920
+  xy: 693, 170
   size: 16, 15
   orig: 16, 15
+  offset: 0, 0
+  index: -1
+playerShip1_blue
+  rotate: false
+  xy: 925, 341
+  size: 99, 75
+  orig: 99, 75
+  offset: 0, 0
+  index: -1
+playerShip1_damage1
+  rotate: false
+  xy: 1694, 423
+  size: 99, 76
+  orig: 99, 76
+  offset: 0, 0
+  index: -1
+playerShip1_damage2
+  rotate: false
+  xy: 1502, 426
+  size: 99, 76
+  orig: 99, 76
+  offset: 0, 0
+  index: -1
+playerShip1_damage3
+  rotate: false
+  xy: 1400, 426
+  size: 100, 76
+  orig: 100, 76
+  offset: 0, 0
+  index: -1
+playerShip1_green
+  rotate: false
+  xy: 723, 341
+  size: 99, 75
+  orig: 99, 75
+  offset: 0, 0
+  index: -1
+playerShip1_orange
+  rotate: false
+  xy: 824, 341
+  size: 99, 75
+  orig: 99, 75
+  offset: 0, 0
+  index: -1
+playerShip1_red
+  rotate: false
+  xy: 1026, 341
+  size: 99, 75
+  orig: 99, 75
+  offset: 0, 0
+  index: -1
+playerShip2_blue
+  rotate: false
+  xy: 1926, 946
+  size: 112, 75
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+playerShip2_damage1
+  rotate: false
+  xy: 1698, 501
+  size: 111, 76
+  orig: 111, 76
+  offset: 0, 0
+  index: -1
+playerShip2_damage2
+  rotate: false
+  xy: 510, 418
+  size: 112, 76
+  orig: 112, 76
+  offset: 0, 0
+  index: -1
+playerShip2_damage3
+  rotate: false
+  xy: 102, 22
+  size: 112, 76
+  orig: 112, 76
+  offset: 0, 0
+  index: -1
+playerShip2_green
+  rotate: false
+  xy: 216, 23
+  size: 112, 75
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+playerShip2_orange
+  rotate: false
+  xy: 404, 75
+  size: 112, 75
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+playerShip2_red
+  rotate: false
+  xy: 510, 341
+  size: 112, 75
+  orig: 112, 75
+  offset: 0, 0
+  index: -1
+playerShip3_blue
+  rotate: false
+  xy: 510, 264
+  size: 98, 75
+  orig: 98, 75
+  offset: 0, 0
+  index: -1
+playerShip3_damage1
+  rotate: false
+  xy: 1594, 342
+  size: 97, 76
+  orig: 97, 76
+  offset: 0, 0
+  index: -1
+playerShip3_damage2
+  rotate: false
+  xy: 624, 332
+  size: 97, 76
+  orig: 97, 76
+  offset: 0, 0
+  index: -1
+playerShip3_damage3
+  rotate: false
+  xy: 1411, 348
+  size: 97, 76
+  orig: 97, 76
+  offset: 0, 0
+  index: -1
+playerShip3_green
+  rotate: false
+  xy: 1227, 341
+  size: 98, 75
+  orig: 98, 75
+  offset: 0, 0
+  index: -1
+playerShip3_orange
+  rotate: false
+  xy: 1127, 341
+  size: 98, 75
+  orig: 98, 75
+  offset: 0, 0
+  index: -1
+playerShip3_red
+  rotate: false
+  xy: 509, 187
+  size: 98, 75
+  orig: 98, 75
   offset: 0, 0
   index: -1
 ship
