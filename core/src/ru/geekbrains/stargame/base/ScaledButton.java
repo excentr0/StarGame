@@ -7,7 +7,7 @@ import ru.geekbrains.stargame.exceptions.GameException;
 public abstract class ScaledButton extends Sprite {
   private static final float BUTTON_SCALE = 0.9f;
 
-  private int pointer;
+  private int     pointer;
   private boolean pressed;
 
   public ScaledButton(TextureRegion region) throws GameException {
@@ -15,18 +15,22 @@ public abstract class ScaledButton extends Sprite {
   }
 
   @Override
-  public boolean touchDown(Vector2 touch, int pointer, int button) {
+  public boolean touchDown(Vector2 touch,
+                           int pointer,
+                           int button) {
     if (pressed || !isMe(touch)) {
       return false;
     }
     this.pointer = pointer;
-    scale = BUTTON_SCALE;
-    pressed = true;
+    scale        = BUTTON_SCALE;
+    pressed      = true;
     return true;
   }
 
   @Override
-  public boolean touchUp(Vector2 touch, int pointer, int button) {
+  public boolean touchUp(Vector2 touch,
+                         int pointer,
+                         int button) {
     if (this.pointer != pointer || !pressed) {
       return false;
     }
@@ -34,7 +38,7 @@ public abstract class ScaledButton extends Sprite {
       action();
     }
     pressed = false;
-    scale = 1f;
+    scale   = 1f;
     return true;
   }
 

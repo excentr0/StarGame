@@ -6,10 +6,11 @@ import ru.geekbrains.stargame.sprites.Enemy;
 
 public class EnemyPool extends SpritesPool<Enemy> {
   private BulletPool bulletPool;
-  private Rect worldBounds;
+  private Rect       worldBounds;
 
-  public EnemyPool(BulletPool bulletPool, Rect worldBounds) {
-    this.bulletPool = bulletPool;
+  public EnemyPool(BulletPool bulletPool,
+                   Rect worldBounds) {
+    this.bulletPool  = bulletPool;
     this.worldBounds = worldBounds;
   }
 

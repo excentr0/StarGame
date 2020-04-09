@@ -12,31 +12,33 @@ import ru.geekbrains.stargame.pool.BulletPool;
 public class MainShip extends Ship {
 
   private static final float BOTTOM_MARGIN = 0.05f;
-  private static final float SHIP_HEIGHT = 0.07f;
+  private static final float SHIP_HEIGHT   = 0.07f;
 
   private Vector2 newPosition = new Vector2();
-  private Vector2 dir = new Vector2();
+  private Vector2 dir         = new Vector2();
 
-  private boolean up = false;
+  private boolean up    = false;
   private boolean right = false;
-  private boolean down = false;
-  private boolean left = false;
+  private boolean down  = false;
+  private boolean left  = false;
 
-  public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound shootSound)
+  public MainShip(TextureAtlas atlas,
+                  BulletPool bulletPool,
+                  Sound shootSound)
       throws GameException {
     super(atlas.findRegion("playerShip1_green"));
     this.bulletPool = bulletPool;
     this.shootSound = shootSound;
 
-    bulletRegion = atlas.findRegion("laserGreen06");
-    bulletV = new Vector2(0, 0.5f);
-    v0 = new Vector2(0.5f, 0);
-    v = new Vector2();
-    bulletHeight = 0.02f;
+    bulletRegion   = atlas.findRegion("laserGreen06");
+    bulletV        = new Vector2(0, 0.5f);
+    v0             = new Vector2(0.5f, 0);
+    v              = new Vector2();
+    bulletHeight   = 0.02f;
     reloadInterval = 0.2f;
-    reloadTimer = reloadInterval;
-    damage = 1;
-    hp = 100;
+    reloadTimer    = reloadInterval;
+    damage         = 1;
+    hp             = 100;
   }
 
   /**
@@ -94,12 +96,16 @@ public class MainShip extends Ship {
     }
   }
 
-  /** Останавливаем корабль */
+  /**
+   * Останавливаем корабль
+   */
   private void stop() {
     dir.setZero();
   }
 
-  /** Проверим, что бы корабль не вылетел за пределы экрана */
+  /**
+   * Проверим, что бы корабль не вылетел за пределы экрана
+   */
   private void checkBounds() {
     if (getLeft() < worldBounds.getLeft()) {
       setLeft(worldBounds.getLeft());
@@ -133,7 +139,9 @@ public class MainShip extends Ship {
    * @return false
    */
   @Override
-  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+  public boolean touchDown(final Vector2 touch,
+                           final int pointer,
+                           final int button) {
     newPosition = touch.cpy();
     dir.set(touch.sub(position).nor());
     return false;

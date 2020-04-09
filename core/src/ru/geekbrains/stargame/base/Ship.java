@@ -10,17 +10,17 @@ import ru.geekbrains.stargame.sprites.Bullet;
 
 public abstract class Ship extends Sprite {
 
-  protected Vector2 v;
-  protected Vector2 v0;
-  protected Rect worldBounds;
-  protected BulletPool bulletPool;
+  protected Vector2       v;
+  protected Vector2       v0;
+  protected Rect          worldBounds;
+  protected BulletPool    bulletPool;
   protected TextureRegion bulletRegion;
-  protected Vector2 bulletV;
-  protected Sound shootSound;
+  protected Vector2       bulletV;
+  protected Sound         shootSound;
 
-  protected int damage;
+  protected int   damage;
   protected float bulletHeight;
-  protected int hp;
+  protected int   hp;
   protected float reloadInterval;
   protected float reloadTimer;
 

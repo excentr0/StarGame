@@ -20,10 +20,10 @@ public abstract class SpritesPool<T extends Sprite> {
     activeObjects.add(object);
     System.out.println(
         this.getClass().getName()
-            + " active/free: "
-            + activeObjects.size()
-            + "/"
-            + freeObjects.size());
+        + " active/free: "
+        + activeObjects.size()
+        + "/"
+        + freeObjects.size());
     return object;
   }
 
@@ -62,10 +62,10 @@ public abstract class SpritesPool<T extends Sprite> {
     }
     System.out.println(
         this.getClass().getName()
-            + " active/free: "
-            + activeObjects.size()
-            + "/"
-            + freeObjects.size());
+        + " active/free: "
+        + activeObjects.size()
+        + "/"
+        + freeObjects.size());
   }
 
   public List<T> getActiveObjects() {

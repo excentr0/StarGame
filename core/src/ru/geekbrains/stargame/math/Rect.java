@@ -2,12 +2,14 @@ package ru.geekbrains.stargame.math;
 
 import com.badlogic.gdx.math.Vector2;
 
-/** Прямоугольник */
+/**
+ * Прямоугольник
+ */
 public class Rect {
 
   public final Vector2 position = new Vector2(); // позиция по центру
-  protected float halfWidth; // половина ширины
-  protected float halfHeight; // половина высоты
+  protected    float   halfWidth; // половина ширины
+  protected    float   halfHeight; // половина высоты
 
   public Rect() {}
 
@@ -15,9 +17,12 @@ public class Rect {
     this(from.position.x, from.position.y, from.getHalfWidth(), from.getHalfHeight());
   }
 
-  public Rect(float x, float y, float halfWidth, float halfHeight) {
+  public Rect(float x,
+              float y,
+              float halfWidth,
+              float halfHeight) {
     position.set(x, y);
-    this.halfWidth = halfWidth;
+    this.halfWidth  = halfWidth;
     this.halfHeight = halfHeight;
   }
 
@@ -31,20 +36,21 @@ public class Rect {
 
   public void set(Rect from) {
     position.set(from.position);
-    halfWidth = from.halfWidth;
+    halfWidth  = from.halfWidth;
     halfHeight = from.halfHeight;
   }
 
-  public void setSize(float width, float height) {
-    this.halfWidth = width / 2f;
+  public void setSize(float width,
+                      float height) {
+    this.halfWidth  = width / 2f;
     this.halfHeight = height / 2f;
   }
 
   public boolean isMe(Vector2 touch) {
     return touch.x >= getLeft()
-        && touch.x <= getRight()
-        && touch.y >= getBottom()
-        && touch.y <= getTop();
+           && touch.x <= getRight()
+           && touch.y >= getBottom()
+           && touch.y <= getTop();
   }
 
   public float getLeft() {
@@ -81,9 +87,9 @@ public class Rect {
 
   public boolean isOutside(Rect other) {
     return getLeft() > other.getRight()
-        || getRight() < other.getLeft()
-        || getBottom() > other.getTop()
-        || getTop() < other.getBottom();
+           || getRight() < other.getLeft()
+           || getBottom() > other.getTop()
+           || getTop() < other.getBottom();
   }
 
   @Override

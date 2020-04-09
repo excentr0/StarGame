@@ -7,8 +7,9 @@ import ru.geekbrains.stargame.math.Rect;
 
 public class Bullet extends Sprite {
   private final Vector2 speedVector = new Vector2();
-  private Rect worldBounds;
-  private int damage;
+
+  private Rect   worldBounds;
+  private int    damage;
   private Object owner;
 
   public Bullet() {
@@ -23,13 +24,13 @@ public class Bullet extends Sprite {
       float height,
       Rect worldBounds,
       int damage) {
-    this.owner = owner;
+    this.owner      = owner;
     this.regions[0] = region;
     this.position.set(pos0);
     this.speedVector.set(v0);
     setHeightProportion(height);
     this.worldBounds = worldBounds;
-    this.damage = damage;
+    this.damage      = damage;
   }
 
   @Override

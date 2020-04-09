@@ -12,7 +12,7 @@ public class SmallAsteroidSprite extends Sprite {
   private final float asteroidSize = Rnd.nextFloat(0.01f, 0.02f);
 
   private Vector2 speedVector;
-  private Rect worldBounds;
+  private Rect    worldBounds;
 
   public SmallAsteroidSprite(final TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("asteroid"));
