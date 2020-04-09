@@ -8,11 +8,13 @@ import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
 
 public class Enemy extends Ship {
-  public Enemy(BulletPool bulletPool, Rect worldBounds) {
-    this.bulletPool = bulletPool;
+  public Enemy(BulletPool bulletPool,
+               Rect worldBounds) {
+    this.bulletPool  = bulletPool;
     this.worldBounds = worldBounds;
-    v = new Vector2();
-    v0 = new Vector2();
+
+    v       = new Vector2();
+    v0      = new Vector2();
     bulletV = new Vector2();
   }
 
@@ -40,11 +42,11 @@ public class Enemy extends Ship {
     this.bulletRegion = bulletRegion;
     this.bulletHeight = bulletHeight;
     this.bulletV.set(0, bulletVY);
-    this.damage = damage;
+    this.damage         = damage;
     this.reloadInterval = reloadInterval;
-    this.reloadTimer = reloadInterval;
-    this.shootSound = shootSound;
-    this.hp = hp;
+    this.reloadTimer    = reloadInterval;
+    this.shootSound     = shootSound;
+    this.hp             = hp;
     this.v.set(v0);
     setHeightProportion(height);
   }

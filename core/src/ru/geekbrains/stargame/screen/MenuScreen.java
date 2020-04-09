@@ -16,10 +16,10 @@ public class MenuScreen extends BaseScreen {
   private final Game game;
 
   private BackgroundSprite backgroundSprite;
-  private TextureAtlas menuAtlas;
-  private TextureAtlas gameAtlas;
-  private ExitButton exitButton;
-  private PlayButton playButton;
+  private TextureAtlas     menuAtlas;
+  private TextureAtlas     gameAtlas;
+  private ExitButton       exitButton;
+  private PlayButton       playButton;
 
   public MenuScreen(final Game game) {
     this.game = game;
@@ -38,8 +38,8 @@ public class MenuScreen extends BaseScreen {
   private void initSprites() {
     try {
       backgroundSprite = new BackgroundSprite(gameAtlas);
-      exitButton = new ExitButton(menuAtlas);
-      playButton = new PlayButton(menuAtlas, game);
+      exitButton       = new ExitButton(menuAtlas);
+      playButton       = new PlayButton(menuAtlas, game);
     } catch (GameException e) {
       throw new RuntimeException(e);
     }
@@ -65,14 +65,18 @@ public class MenuScreen extends BaseScreen {
   }
 
   @Override
-  public boolean touchUp(final Vector2 touch, final int pointer, final int button) {
+  public boolean touchUp(final Vector2 touch,
+                         final int pointer,
+                         final int button) {
     exitButton.touchUp(touch, pointer, button);
     playButton.touchUp(touch, pointer, button);
     return false;
   }
 
   @Override
-  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+  public boolean touchDown(final Vector2 touch,
+                           final int pointer,
+                           final int button) {
     exitButton.touchDown(touch, pointer, button);
     playButton.touchDown(touch, pointer, button);
     return false;

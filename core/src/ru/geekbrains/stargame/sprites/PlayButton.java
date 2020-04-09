@@ -11,7 +11,8 @@ public class PlayButton extends ScaledButton {
 
   private final Game game;
 
-  public PlayButton(TextureAtlas atlas, Game game) throws GameException {
+  public PlayButton(TextureAtlas atlas,
+                    Game game) throws GameException {
     super(atlas.findRegion("btPlay"));
     this.game = game;
   }

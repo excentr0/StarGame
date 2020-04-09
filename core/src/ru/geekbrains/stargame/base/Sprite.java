@@ -8,15 +8,15 @@ import ru.geekbrains.stargame.math.Rect;
 
 public class Sprite extends Rect {
 
-  protected float angle;
-  protected float scale = 1f;
+  protected float           angle;
+  protected float           scale     = 1f;
   protected TextureRegion[] regions;
-  protected int frame;
-  private boolean destroyed = false;
+  protected int             frame;
+  private   boolean         destroyed = false;
 
   public Sprite(TextureRegion region) throws GameException {
     if (region == null) throw new GameException("Region is null");
-    regions = new TextureRegion[1];
+    regions    = new TextureRegion[1];
     regions[0] = region;
   }
 
@@ -46,15 +46,20 @@ public class Sprite extends Rect {
 
   public void resize(Rect worldBounds) {}
 
-  public boolean touchDown(Vector2 touch, int pointer, int button) {
+  public boolean touchDown(Vector2 touch,
+                           int pointer,
+                           int button) {
     return false;
   }
 
-  public boolean touchUp(Vector2 touch, int pointer, int button) {
+  public boolean touchUp(Vector2 touch,
+                         int pointer,
+                         int button) {
     return false;
   }
 
-  public boolean touchDragged(Vector2 touch, int pointer) {
+  public boolean touchDragged(Vector2 touch,
+                              int pointer) {
     return false;
   }
 

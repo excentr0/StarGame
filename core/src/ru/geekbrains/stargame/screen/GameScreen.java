@@ -18,30 +18,32 @@ import ru.geekbrains.stargame.sprites.SmallAsteroidSprite;
 import ru.geekbrains.stargame.utils.EnemyEmitter;
 
 public class GameScreen extends BaseScreen {
-  private static final int BIG_ASTEROID_COUNT = 5;
-  private static final int MED_ASTEROID_COUNT = 7;
+  private static final int BIG_ASTEROID_COUNT   = 5;
+  private static final int MED_ASTEROID_COUNT   = 7;
   private static final int SMALL_ASTEROID_COUNT = 10;
 
-  private TextureAtlas gameAtlas;
-  private MainShip mainShip;
-  private EnemyPool enemyPool;
-  private EnemyEmitter enemyEmitter;
-  private BackgroundSprite backgroundSprite;
-  private BigAsteroidSprite[] bigAsteroids;
+  private TextureAtlas           gameAtlas;
+  private MainShip               mainShip;
+  private EnemyPool              enemyPool;
+  private EnemyEmitter           enemyEmitter;
+  private BackgroundSprite       backgroundSprite;
+  private BigAsteroidSprite[]    bigAsteroids;
   private MediumAsteroidSprite[] mediumAsteroids;
-  private SmallAsteroidSprite[] smallAsteroids;
-  private BulletPool bulletPool;
-  private Sound laserSound;
-  private Sound bulletSound;
+  private SmallAsteroidSprite[]  smallAsteroids;
+  private BulletPool             bulletPool;
+  private Sound                  laserSound;
+  private Sound                  bulletSound;
 
   @Override
   public void show() {
     super.show();
     gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
-    laserSound = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+
+    laserSound  = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
     bulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
-    bulletPool = new BulletPool();
-    enemyPool = new EnemyPool(bulletPool, worldBounds);
+
+    bulletPool   = new BulletPool();
+    enemyPool    = new EnemyPool(bulletPool, worldBounds);
     enemyEmitter = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
 
     initSprites();
@@ -49,20 +51,20 @@ public class GameScreen extends BaseScreen {
 
   private void initSprites() {
     try {
-      mainShip = new MainShip(gameAtlas, bulletPool, laserSound);
+      mainShip         = new MainShip(gameAtlas, bulletPool, laserSound);
       backgroundSprite = new BackgroundSprite(gameAtlas);
-      bigAsteroids = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
-      mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
-      smallAsteroids = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
+      bigAsteroids     = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
+      mediumAsteroids  = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
+      smallAsteroids   = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
 
       for (int i = 0; i < BIG_ASTEROID_COUNT; i++)
-        bigAsteroids[i] = new BigAsteroidSprite(gameAtlas);
+           bigAsteroids[i] = new BigAsteroidSprite(gameAtlas);
 
       for (int i = 0; i < MED_ASTEROID_COUNT; i++)
-        mediumAsteroids[i] = new MediumAsteroidSprite(gameAtlas);
+           mediumAsteroids[i] = new MediumAsteroidSprite(gameAtlas);
 
       for (int i = 0; i < SMALL_ASTEROID_COUNT; i++)
-        smallAsteroids[i] = new SmallAsteroidSprite(gameAtlas);
+           smallAsteroids[i] = new SmallAsteroidSprite(gameAtlas);
 
     } catch (GameException e) {
       throw new RuntimeException(e);
@@ -143,7 +145,9 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
-  public boolean touchDown(final Vector2 touch, final int pointer, final int button) {
+  public boolean touchDown(final Vector2 touch,
+                           final int pointer,
+                           final int button) {
     mainShip.touchDown(touch, pointer, button);
     return false;
   }

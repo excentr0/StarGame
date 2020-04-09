@@ -10,7 +10,8 @@ public class GameException extends Exception {
     super(s);
   }
 
-  public GameException(String s, Throwable throwable) {
+  public GameException(String s,
+                       Throwable throwable) {
     super(s, throwable);
   }
 

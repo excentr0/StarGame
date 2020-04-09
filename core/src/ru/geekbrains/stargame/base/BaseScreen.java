@@ -13,14 +13,14 @@ import ru.geekbrains.stargame.math.Rect;
 
 public abstract class BaseScreen implements Screen, InputProcessor {
 
-  private final Music music;
-  protected SpriteBatch batch;
-  protected Vector2 touch;
-  protected Rect worldBounds;
-  private Rect screenBounds;
-  private Rect glBounds;
-  private Matrix4 worldToGl;
-  private Matrix3 screenToWorld;
+  private final Music       music;
+  protected     SpriteBatch batch;
+  protected     Vector2     touch;
+  protected     Rect        worldBounds;
+  private       Rect        screenBounds;
+  private       Rect        glBounds;
+  private       Matrix4     worldToGl;
+  private       Matrix3     screenToWorld;
 
   public BaseScreen() {
     music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
@@ -33,19 +33,20 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     System.out.println("show");
     batch = new SpriteBatch();
     Gdx.input.setInputProcessor(this);
-    screenBounds = new Rect();
-    worldBounds = new Rect();
-    glBounds = new Rect(0, 0, 1f, 1f);
-    worldToGl = new Matrix4();
+    screenBounds  = new Rect();
+    worldBounds   = new Rect();
+    glBounds      = new Rect(0, 0, 1f, 1f);
+    worldToGl     = new Matrix4();
     screenToWorld = new Matrix3();
-    touch = new Vector2();
+    touch         = new Vector2();
   }
 
   @Override
   public void render(float delta) {}
 
   @Override
-  public void resize(int width, int height) {
+  public void resize(int width,
+                     int height) {
     System.out.println("resize width = " + width + " height = " + height);
     screenBounds.setSize(width, height);
     screenBounds.setLeft(0);
@@ -106,7 +107,10 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   }
 
   @Override
-  public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+  public boolean touchDown(int screenX,
+                           int screenY,
+                           int pointer,
+                           int button) {
     System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
     calcTouch(screenX, screenY);
     touchDown(touch, pointer, button);
@@ -114,42 +118,51 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   }
 
   @Override
-  public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+  public boolean touchUp(int screenX,
+                         int screenY,
+                         int pointer,
+                         int button) {
     System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
     calcTouch(screenX, screenY);
     touchUp(touch, pointer, button);
     return false;
   }
 
-  public boolean touchUp(Vector2 touch, int pointer, int button) {
+  public boolean touchUp(Vector2 touch,
+                         int pointer,
+                         int button) {
     System.out.println(
         "touchUp Vector touch X = "
-            + touch.x
-            + " touch Y = "
-            + touch.y
-            + " pointer = "
-            + pointer
-            + " button = "
-            + button);
+        + touch.x
+        + " touch Y = "
+        + touch.y
+        + " pointer = "
+        + pointer
+        + " button = "
+        + button);
     return false;
   }
 
   @Override
-  public boolean touchDragged(int screenX, int screenY, int pointer) {
+  public boolean touchDragged(int screenX,
+                              int screenY,
+                              int pointer) {
     System.out.println("touchDragged screenX = " + screenX + " screenY = " + screenY);
     calcTouch(screenX, screenY);
     touchDragged(touch, pointer);
     return false;
   }
 
-  public boolean touchDragged(Vector2 touch, int pointer) {
+  public boolean touchDragged(Vector2 touch,
+                              int pointer) {
     System.out.println(
         "touchDragged touch X = " + touch.x + " touch Y = " + touch.y + " pointer " + pointer);
     return false;
   }
 
   @Override
-  public boolean mouseMoved(int screenX, int screenY) {
+  public boolean mouseMoved(int screenX,
+                            int screenY) {
     return false;
   }
 
@@ -159,20 +172,23 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     return false;
   }
 
-  protected void calcTouch(int screenX, int screenY) {
+  protected void calcTouch(int screenX,
+                           int screenY) {
     touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
   }
 
-  public boolean touchDown(Vector2 touch, int pointer, int button) {
+  public boolean touchDown(Vector2 touch,
+                           int pointer,
+                           int button) {
     System.out.println(
         "touchDown Vector touch X = "
-            + touch.x
-            + " touch Y = "
-            + touch.y
-            + " pointer "
-            + pointer
-            + " button "
-            + button);
+        + touch.x
+        + " touch Y = "
+        + touch.y
+        + " pointer "
+        + pointer
+        + " button "
+        + button);
     return false;
   }
 }

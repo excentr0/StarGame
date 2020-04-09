@@ -10,7 +10,7 @@ import ru.geekbrains.stargame.math.Rnd;
 public class BigAsteroidSprite extends Sprite {
 
   private Vector2 speedVector;
-  private Rect worldBounds;
+  private Rect    worldBounds;
 
   public BigAsteroidSprite(final TextureAtlas atlas) throws GameException {
     super(atlas.findRegion("asteroid"));
