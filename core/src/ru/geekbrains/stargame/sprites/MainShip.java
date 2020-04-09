@@ -14,8 +14,8 @@ public class MainShip extends Ship {
   private static final float BOTTOM_MARGIN = 0.05f;
   private static final float SHIP_HEIGHT   = 0.07f;
 
-  private Vector2 newPosition = new Vector2();
-  private Vector2 dir         = new Vector2();
+  private       Vector2 newPosition = new Vector2();
+  private final Vector2 dir         = new Vector2();
 
   private boolean up    = false;
   private boolean right = false;
@@ -62,11 +62,7 @@ public class MainShip extends Ship {
       stop();
     }
     // Стреляем
-    reloadTimer += delta;
-    if (reloadTimer >= reloadInterval) {
-      reloadTimer = 0f;
-      shoot();
-    }
+    performShooting(delta);
 
     checkBounds();
   }
@@ -143,7 +139,8 @@ public class MainShip extends Ship {
                            final int pointer,
                            final int button) {
     newPosition = touch.cpy();
-    dir.set(touch.sub(position).nor());
+    dir.set(touch.sub(position)
+                 .nor());
     return false;
   }
 

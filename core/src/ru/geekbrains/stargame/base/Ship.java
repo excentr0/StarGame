@@ -39,11 +39,20 @@ public abstract class Ship extends Sprite {
       reloadTimer = reloadInterval;
     } else {
       position.mulAdd(v, delta);
-      reloadTimer += delta;
-      if (reloadTimer >= reloadInterval) {
-        reloadTimer = 0f;
-        shoot();
-      }
+      performShooting(delta);
+    }
+  }
+
+  /**
+   * Выполняем стрельбу
+   *
+   * @param delta дельта времени
+   */
+  protected void performShooting(final float delta) {
+    reloadTimer += delta;
+    if (reloadTimer >= reloadInterval) {
+      reloadTimer = 0f;
+      shoot();
     }
   }
 
