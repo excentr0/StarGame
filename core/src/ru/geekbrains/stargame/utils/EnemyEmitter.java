@@ -15,21 +15,21 @@ public class EnemyEmitter {
   private static final float ENEMY_SMALL_BULLET_VY       = -0.3f;
   private static final int   ENEMY_SMALL_DAMAGE          = 1;
   private static final float ENEMY_SMALL_RELOAD_INTERVAL = 1f;
-  private static final int   ENEMY_SMALL_HP              = 1;
+  private static final int   ENEMY_SMALL_HP              = 5;
 
   private static final float ENEMY_MEDIUM_HEIGHT          = 0.1f;
   private static final float ENEMY_MEDIUM_BULLET_HEIGHT   = 0.02f;
   private static final float ENEMY_MEDIUM_BULLET_VY       = -0.25f;
   private static final int   ENEMY_MEDIUM_DAMAGE          = 5;
   private static final float ENEMY_MEDIUM_RELOAD_INTERVAL = 2f;
-  private static final int   ENEMY_MEDIUM_HP              = 5;
+  private static final int   ENEMY_MEDIUM_HP              = 10;
 
   private static final float ENEMY_BIG_HEIGHT          = 0.12f;
   private static final float ENEMY_BIG_BULLET_HEIGHT   = 0.04f;
   private static final float ENEMY_BIG_BULLET_VY       = -0.3f;
   private static final int   ENEMY_BIG_DAMAGE          = 10;
   private static final float ENEMY_BIG_RELOAD_INTERVAL = 3f;
-  private static final int   ENEMY_BIG_HP              = 10;
+  private static final int   ENEMY_BIG_HP              = 15;
 
   private final Vector2   enemySmallV;
   private final Vector2   enemyMediumV;
@@ -41,17 +41,17 @@ public class EnemyEmitter {
   private final TextureRegion[] enemyBigRegion;
   private final Rect            worldBounds;
   private final Sound           shootSound;
-  private final TextureRegion bulletRegion;
-  private       float         generateTimer;
+  private final TextureRegion[] bulletRegions;
+  private       float           generateTimer;
 
   public EnemyEmitter(TextureAtlas atlas,
                       EnemyPool enemyPool,
                       Rect worldBounds,
                       Sound shootSound) {
-    this.worldBounds  = worldBounds;
-    this.shootSound   = shootSound;
-    this.enemyPool    = enemyPool;
-    this.bulletRegion = atlas.findRegion("laserRed14");
+    this.worldBounds   = worldBounds;
+    this.shootSound    = shootSound;
+    this.enemyPool     = enemyPool;
+    this.bulletRegions = new TextureRegion[]{atlas.findRegion("laserRed14"), atlas.findRegion("laserRed10")};
     TextureRegion enemy0 = atlas.findRegion("enemyBlack1");
     this.enemySmallRegion = Regions.split(enemy0, 1, 1, 1);
     TextureRegion enemy1 = atlas.findRegion("enemyBlue2");
@@ -74,7 +74,7 @@ public class EnemyEmitter {
         enemy.set(
             enemySmallRegion,
             enemySmallV,
-            bulletRegion,
+            bulletRegions,
             ENEMY_SMALL_BULLET_HEIGHT,
             ENEMY_SMALL_BULLET_VY,
             ENEMY_SMALL_DAMAGE,
@@ -86,7 +86,7 @@ public class EnemyEmitter {
         enemy.set(
             enemyMediumRegion,
             enemyMediumV,
-            bulletRegion,
+            bulletRegions,
             ENEMY_MEDIUM_BULLET_HEIGHT,
             ENEMY_MEDIUM_BULLET_VY,
             ENEMY_MEDIUM_DAMAGE,
@@ -98,7 +98,7 @@ public class EnemyEmitter {
         enemy.set(
             enemyBigRegion,
             enemyBigV,
-            bulletRegion,
+            bulletRegions,
             ENEMY_BIG_BULLET_HEIGHT,
             ENEMY_BIG_BULLET_VY,
             ENEMY_BIG_DAMAGE,

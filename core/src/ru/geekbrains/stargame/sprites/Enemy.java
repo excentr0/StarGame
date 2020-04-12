@@ -9,7 +9,9 @@ import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.pool.ExplosionPool;
 
 public class Enemy extends Ship {
-  public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
+  public Enemy(BulletPool bulletPool,
+               ExplosionPool explosionPool,
+               Rect worldBounds) {
     this.bulletPool    = bulletPool;
     this.worldBounds   = worldBounds;
     this.explosionPool = explosionPool;
@@ -30,7 +32,7 @@ public class Enemy extends Ship {
   public void set(
       TextureRegion[] regions,
       Vector2 v0,
-      TextureRegion bulletRegion,
+      TextureRegion[] bulletRegion,
       float bulletHeight,
       float bulletVY,
       int damage,
@@ -40,8 +42,8 @@ public class Enemy extends Ship {
       float height) {
     this.regions = regions;
     this.v0.set(v0);
-    this.bulletRegion = bulletRegion;
-    this.bulletHeight = bulletHeight;
+    this.bulletRegions = bulletRegion;
+    this.bulletHeight  = bulletHeight;
     this.bulletV.set(0, bulletVY);
     this.damage         = damage;
     this.reloadInterval = reloadInterval;

@@ -7,25 +7,25 @@ import ru.geekbrains.stargame.math.Rect;
 
 public class Bullet extends Sprite {
   private final Vector2 speedVector = new Vector2();
+  private       int     damage;
 
   private Rect   worldBounds;
-  private int    damage;
   private Object owner;
 
   public Bullet() {
-    regions = new TextureRegion[1];
+    regions = new TextureRegion[2];
   }
 
   public void set(
       Object owner,
-      TextureRegion region,
+      TextureRegion[] regions,
       Vector2 pos0,
       Vector2 v0,
       float height,
       Rect worldBounds,
       int damage) {
-    this.owner      = owner;
-    this.regions[0] = region;
+    this.owner   = owner;
+    this.regions = regions;
     this.position.set(pos0);
     this.speedVector.set(v0);
     setHeightProportion(height);

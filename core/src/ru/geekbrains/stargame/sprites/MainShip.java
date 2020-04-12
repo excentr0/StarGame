@@ -3,6 +3,7 @@ package ru.geekbrains.stargame.sprites;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Ship;
 import ru.geekbrains.stargame.exceptions.GameException;
@@ -10,39 +11,43 @@ import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.pool.ExplosionPool;
 
+
 public class MainShip extends Ship {
 
-  private static final float   BOTTOM_MARGIN = 0.05f;
-  private static final float   SHIP_HEIGHT   = 0.07f;
-  private final        Vector2 dir           = new Vector2();
-  private              Vector2 newPosition   = new Vector2();
-  private              boolean up            = false;
-  private              boolean right         = false;
-  private              boolean down          = false;
-  private              boolean left          = false;
+  private static final float BOTTOM_MARGIN = 0.05f;
+  private static final float SHIP_HEIGHT   = 0.07f;
+
+  private final Vector2 dir         = new Vector2();
+  private       Vector2 newPosition = new Vector2();
+
+  private boolean up    = false;
+  private boolean right = false;
+  private boolean down  = false;
+  private boolean left  = false;
 
   public MainShip(TextureAtlas atlas,
                   BulletPool bulletPool,
                   ExplosionPool explosionPool,
                   Sound shootSound)
       throws GameException {
-    super(atlas.findRegion("playerShip1_green"));
+    super(atlas.findRegion("playerShip3_green"));
     this.explosionPool = explosionPool;
     this.bulletPool    = bulletPool;
     this.shootSound    = shootSound;
 
-    bulletRegion = atlas.findRegion("laserGreen06");
+    bulletRegions = new TextureRegion[]{atlas.findRegion("laserGreen10"), atlas.findRegion("laserGreen16")};
 
     bulletV = new Vector2(0, 0.5f);
     v0      = new Vector2(0.5f, 0);
     v       = new Vector2();
 
-    damage         = 1;
-    hp             = 10;
+    damage         = 2;
+    hp             = 20;
     bulletHeight   = 0.02f;
     reloadInterval = 0.2f;
     reloadTimer    = reloadInterval;
   }
+
 
   /**
    * обновляем позицию корабля
@@ -83,13 +88,15 @@ public class MainShip extends Ship {
       if (left) {
         speedX = -1f;
       } else {
-        speedX = right ? 1f : 0f;
+        if (right) speedX = 1f;
+        else speedX = 0f;
       }
 
       if (down) {
         speedY = -1f;
       } else {
-        speedY = up ? 1f : 0f;
+        if (up) speedY = 1f;
+        else speedY = 0f;
       }
       dir.set(speedX, speedY);
     }
@@ -146,6 +153,7 @@ public class MainShip extends Ship {
                  .nor());
     return false;
   }
+
 
   /**
    * Обрабатывает нажатие кнопок стрелок

@@ -19,9 +19,9 @@ public abstract class Ship extends Sprite {
   protected Rect  worldBounds;
   protected Sound shootSound;
 
-  protected BulletPool    bulletPool;
-  protected ExplosionPool explosionPool;
-  protected TextureRegion bulletRegion;
+  protected BulletPool      bulletPool;
+  protected ExplosionPool   explosionPool;
+  protected TextureRegion[] bulletRegions;
 
   protected int damage;
   protected int hp;
@@ -64,7 +64,7 @@ public abstract class Ship extends Sprite {
 
   protected void shoot() {
     Bullet bullet = bulletPool.obtain();
-    bullet.set(this, bulletRegion, position, bulletV, bulletHeight, worldBounds, damage);
+    bullet.set(this, bulletRegions, position, bulletV, bulletHeight, worldBounds, damage);
     shootSound.play(1f);
   }
 
