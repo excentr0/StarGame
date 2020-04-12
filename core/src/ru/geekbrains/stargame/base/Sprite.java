@@ -5,14 +5,17 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
+import ru.geekbrains.stargame.utils.Regions;
 
 public class Sprite extends Rect {
 
-  protected float           angle;
-  protected float           scale     = 1f;
   protected TextureRegion[] regions;
-  protected int             frame;
-  private   boolean         destroyed = false;
+
+  protected float angle;
+  protected int   frame;
+
+  protected float   scale     = 1f;
+  private   boolean destroyed = false;
 
   public Sprite(TextureRegion region) throws GameException {
     if (region == null) throw new GameException("Region is null");
@@ -21,6 +24,16 @@ public class Sprite extends Rect {
   }
 
   public Sprite() {}
+
+  public Sprite(TextureRegion region,
+                int rows,
+                int cols,
+                int frames) throws GameException {
+    if (region == null) {
+      throw new GameException("Region is null");
+    }
+    this.regions = Regions.split(region, rows, cols, frames);
+  }
 
   public void setHeightProportion(float height) {
     setHeight(height);
@@ -90,4 +103,5 @@ public class Sprite extends Rect {
   public void destroy() {
     destroyed = true;
   }
+
 }

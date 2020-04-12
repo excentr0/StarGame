@@ -6,12 +6,13 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.stargame.base.Ship;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
+import ru.geekbrains.stargame.pool.ExplosionPool;
 
 public class Enemy extends Ship {
-  public Enemy(BulletPool bulletPool,
-               Rect worldBounds) {
-    this.bulletPool  = bulletPool;
-    this.worldBounds = worldBounds;
+  public Enemy(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds) {
+    this.bulletPool    = bulletPool;
+    this.worldBounds   = worldBounds;
+    this.explosionPool = explosionPool;
 
     v       = new Vector2();
     v0      = new Vector2();
@@ -49,5 +50,12 @@ public class Enemy extends Ship {
     this.hp             = hp;
     this.v.set(v0);
     setHeightProportion(height);
+  }
+
+  public boolean isBulletCollision(final Rect bullet) {
+    return !(bullet.getRight() < getLeft()
+             || bullet.getLeft() > getRight()
+             || bullet.getBottom() > getTop()
+             || bullet.getTop() < position.y);
   }
 }

@@ -36,13 +36,13 @@ public class EnemyEmitter {
   private final Vector2   enemyBigV;
   private final EnemyPool enemyPool;
 
-  private TextureRegion[] enemySmallRegion;
-  private TextureRegion[] enemyMediumRegion;
-  private TextureRegion[] enemyBigRegion;
-  private Rect            worldBounds;
-  private Sound           shootSound;
-  private TextureRegion   bulletRegion;
-  private float           generateTimer;
+  private final TextureRegion[] enemySmallRegion;
+  private final TextureRegion[] enemyMediumRegion;
+  private final TextureRegion[] enemyBigRegion;
+  private final Rect            worldBounds;
+  private final Sound           shootSound;
+  private final TextureRegion bulletRegion;
+  private       float         generateTimer;
 
   public EnemyEmitter(TextureAtlas atlas,
                       EnemyPool enemyPool,
@@ -65,7 +65,7 @@ public class EnemyEmitter {
 
   public void generate(float delta) {
     generateTimer += delta;
-    final float generateInterval = 4f;
+    final float generateInterval = 1f;
     if (generateTimer >= generateInterval) {
       generateTimer = 0f;
       Enemy enemy = enemyPool.obtain();

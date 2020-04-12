@@ -10,52 +10,67 @@ import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.pool.EnemyPool;
-import ru.geekbrains.stargame.sprites.BackgroundSprite;
-import ru.geekbrains.stargame.sprites.BigAsteroidSprite;
-import ru.geekbrains.stargame.sprites.MainShip;
-import ru.geekbrains.stargame.sprites.MediumAsteroidSprite;
-import ru.geekbrains.stargame.sprites.SmallAsteroidSprite;
+import ru.geekbrains.stargame.pool.ExplosionPool;
+import ru.geekbrains.stargame.sprites.*;
 import ru.geekbrains.stargame.utils.EnemyEmitter;
+
+import java.util.List;
 
 public class GameScreen extends BaseScreen {
   private static final int BIG_ASTEROID_COUNT   = 5;
   private static final int MED_ASTEROID_COUNT   = 7;
   private static final int SMALL_ASTEROID_COUNT = 10;
 
-  private TextureAtlas           gameAtlas;
-  private MainShip               mainShip;
-  private EnemyPool              enemyPool;
-  private EnemyEmitter           enemyEmitter;
-  private BackgroundSprite       backgroundSprite;
+  private TextureAtlas gameAtlas;
+  private TextureAtlas extraAtlas; // атлас по взрывами и gameover
+
+  private EnemyPool     enemyPool;
+  private BulletPool    bulletPool;
+  private ExplosionPool explosionPool;
+
+  private MainShip         mainShip;
+  private GameOver         gameOver;
+  private EnemyEmitter     enemyEmitter;
+  private BackgroundSprite backgroundSprite;
+
   private BigAsteroidSprite[]    bigAsteroids;
   private MediumAsteroidSprite[] mediumAsteroids;
   private SmallAsteroidSprite[]  smallAsteroids;
-  private BulletPool             bulletPool;
-  private Sound                  laserSound;
-  private Sound                  bulletSound;
+
+  private Sound laserSound;
+  private Sound bulletSound;
+  private Sound explosionSound;
+
+  private State state;
 
   @Override
   public void show() {
     super.show();
-    gameAtlas = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
+    gameAtlas  = new TextureAtlas(Gdx.files.internal("textures/StarGame.atlas"));
+    extraAtlas = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.tpack"));
 
-    laserSound  = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
-    bulletSound = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
+    laserSound     = Gdx.audio.newSound(Gdx.files.internal("sound/laser.wav"));
+    bulletSound    = Gdx.audio.newSound(Gdx.files.internal("sound/bullet.wav"));
+    explosionSound = Gdx.audio.newSound(Gdx.files.internal("sound/explosion.wav"));
 
-    bulletPool   = new BulletPool();
-    enemyPool    = new EnemyPool(bulletPool, worldBounds);
-    enemyEmitter = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
+    bulletPool    = new BulletPool();
+    explosionPool = new ExplosionPool(extraAtlas, explosionSound);
+    enemyPool     = new EnemyPool(bulletPool, explosionPool, worldBounds);
+    enemyEmitter  = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
 
     initSprites();
+    state = State.PLAYING;
   }
 
   private void initSprites() {
     try {
-      mainShip         = new MainShip(gameAtlas, bulletPool, laserSound);
+      mainShip         = new MainShip(gameAtlas, bulletPool, explosionPool, laserSound);
       backgroundSprite = new BackgroundSprite(gameAtlas);
-      bigAsteroids     = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
-      mediumAsteroids  = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
-      smallAsteroids   = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
+      gameOver         = new GameOver(extraAtlas);
+
+      bigAsteroids    = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
+      mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
+      smallAsteroids  = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
 
       for (int i = 0; i < BIG_ASTEROID_COUNT; i++)
            bigAsteroids[i] = new BigAsteroidSprite(gameAtlas);
@@ -75,25 +90,53 @@ public class GameScreen extends BaseScreen {
   public void render(float delta) {
     super.render(delta);
     update(delta);
+    checkCollisions();
     freeAllDestroyed();
     draw();
   }
 
   private void update(final float delta) {
-    mainShip.update(delta);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.update(delta);
     for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.update(delta);
     for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.update(delta);
-    bulletPool.updateActiveSprites(delta);
-    enemyPool.updateActiveSprites(delta);
-    enemyEmitter.generate(delta);
+    explosionPool.updateActiveSprites(delta);
+    if (state == State.PLAYING) {
+      mainShip.update(delta);
+      bulletPool.updateActiveSprites(delta);
+      enemyPool.updateActiveSprites(delta);
+      enemyEmitter.generate(delta);
+    }
+  }
+
+  private void checkCollisions() {
+    if (state != State.PLAYING) {
+      return;
+    }
+    List<Enemy> enemyList = enemyPool.getActiveObjects();
+    List<Bullet> bulletList = bulletPool.getActiveObjects();
+    for (Enemy enemy : enemyList) {
+      if (enemy.isDestroyed()) {
+        continue;
+      }
+      float minDist = enemy.getHalfWidth() + mainShip.getHalfWidth();
+      if (mainShip.position.dst(enemy.position) < minDist) {
+        enemy.destroy();
+        mainShip.damage(enemy.getDamage());
+      }
+      checkEnemyShipHit(bulletList, enemy);
+    }
+    checkMainShipHit(bulletList);
+    if (mainShip.isDestroyed()) {
+      state = State.GAME_OVER;
+    }
   }
 
   public void freeAllDestroyed() {
     bulletPool.freeAllDestroyedActiveObjects();
     enemyPool.freeAllDestroyedActiveObjects();
+    explosionPool.freeAllDestroyedActiveObjects();
   }
 
   private void draw() {
@@ -106,10 +149,57 @@ public class GameScreen extends BaseScreen {
     for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
       mediumAsteroidSprite.draw(batch);
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
-    bulletPool.drawActiveSprites(batch);
-    enemyPool.drawActiveSprites(batch);
-    mainShip.draw(batch);
+
+    switch (state) {
+      case PLAYING:
+        bulletPool.drawActiveSprites(batch);
+        enemyPool.drawActiveSprites(batch);
+        mainShip.draw(batch);
+        break;
+      case PAUSE:
+        break;
+      case GAME_OVER:
+        gameOver.draw(batch);
+        break;
+    }
+    explosionPool.drawActiveSprites(batch);
     batch.end();
+  }
+
+  /**
+   * Проверяем, попали ли во вражеский корабль
+   *
+   * @param bulletList список пуль
+   * @param enemy      вражеский корабль
+   */
+  private void checkEnemyShipHit(final List<Bullet> bulletList,
+                                 final Enemy enemy) {
+    for (Bullet bullet : bulletList) {
+      if (bullet.getOwner() != mainShip || bullet.isDestroyed()) {
+        continue;
+      }
+      if (enemy.isBulletCollision(bullet)) {
+        enemy.damage(bullet.getDamage());
+        bullet.destroy();
+      }
+    }
+  }
+
+  /**
+   * Проверяем, попали ли в корабль игрока
+   *
+   * @param bulletList Список пуль
+   */
+  private void checkMainShipHit(final List<Bullet> bulletList) {
+    for (Bullet bullet : bulletList) {
+      if (bullet.getOwner() == mainShip || bullet.isDestroyed()) {
+        continue;
+      }
+      if (mainShip.isBulletCollision(bullet)) {
+        mainShip.damage(bullet.getDamage());
+        bullet.destroy();
+      }
+    }
   }
 
   @Override
@@ -121,6 +211,7 @@ public class GameScreen extends BaseScreen {
       mediumAsteroidSprite.resize(worldBounds);
     for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
       smallAsteroidSprite.resize(worldBounds);
+    gameOver.resize(worldBounds);
   }
 
   @Override
@@ -130,25 +221,36 @@ public class GameScreen extends BaseScreen {
     bulletPool.dispose();
     enemyPool.dispose();
     bulletSound.dispose();
+    explosionSound.dispose();
     mainShip.dispose();
     super.dispose();
   }
 
   @Override
   public boolean keyDown(int keycode) {
-    return mainShip.keyDown(keycode);
+    if (state == State.PLAYING) {
+      return mainShip.keyDown(keycode);
+    }
+    return false;
   }
 
   @Override
   public boolean keyUp(int keycode) {
-    return mainShip.keyUp(keycode);
+    if (state == State.PLAYING) {
+      return mainShip.keyUp(keycode);
+    }
+    return false;
   }
 
   @Override
   public boolean touchDown(final Vector2 touch,
                            final int pointer,
                            final int button) {
-    mainShip.touchDown(touch, pointer, button);
+    if (state == State.PLAYING) {
+      mainShip.touchDown(touch, pointer, button);
+    }
     return false;
   }
+
+  private enum State {PLAYING, PAUSE, GAME_OVER}
 }

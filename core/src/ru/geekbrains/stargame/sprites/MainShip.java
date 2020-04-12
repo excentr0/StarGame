@@ -8,37 +8,40 @@ import ru.geekbrains.stargame.base.Ship;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
+import ru.geekbrains.stargame.pool.ExplosionPool;
 
 public class MainShip extends Ship {
 
-  private static final float BOTTOM_MARGIN = 0.05f;
-  private static final float SHIP_HEIGHT   = 0.07f;
-
-  private       Vector2 newPosition = new Vector2();
-  private final Vector2 dir         = new Vector2();
-
-  private boolean up    = false;
-  private boolean right = false;
-  private boolean down  = false;
-  private boolean left  = false;
+  private static final float   BOTTOM_MARGIN = 0.05f;
+  private static final float   SHIP_HEIGHT   = 0.07f;
+  private final        Vector2 dir           = new Vector2();
+  private              Vector2 newPosition   = new Vector2();
+  private              boolean up            = false;
+  private              boolean right         = false;
+  private              boolean down          = false;
+  private              boolean left          = false;
 
   public MainShip(TextureAtlas atlas,
                   BulletPool bulletPool,
+                  ExplosionPool explosionPool,
                   Sound shootSound)
       throws GameException {
     super(atlas.findRegion("playerShip1_green"));
-    this.bulletPool = bulletPool;
-    this.shootSound = shootSound;
+    this.explosionPool = explosionPool;
+    this.bulletPool    = bulletPool;
+    this.shootSound    = shootSound;
 
-    bulletRegion   = atlas.findRegion("laserGreen06");
-    bulletV        = new Vector2(0, 0.5f);
-    v0             = new Vector2(0.5f, 0);
-    v              = new Vector2();
+    bulletRegion = atlas.findRegion("laserGreen06");
+
+    bulletV = new Vector2(0, 0.5f);
+    v0      = new Vector2(0.5f, 0);
+    v       = new Vector2();
+
+    damage         = 1;
+    hp             = 10;
     bulletHeight   = 0.02f;
     reloadInterval = 0.2f;
     reloadTimer    = reloadInterval;
-    damage         = 1;
-    hp             = 100;
   }
 
   /**
@@ -188,5 +191,12 @@ public class MainShip extends Ship {
 
   public void dispose() {
     shootSound.dispose();
+  }
+
+  public boolean isBulletCollision(final Rect bullet) {
+    return !(bullet.getRight() < getLeft()
+             || bullet.getLeft() > getRight()
+             || bullet.getBottom() > position.y
+             || bullet.getTop() < getBottom());
   }
 }
