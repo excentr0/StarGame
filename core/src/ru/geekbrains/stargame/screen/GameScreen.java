@@ -1,5 +1,6 @@
 package ru.geekbrains.stargame.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,27 +22,29 @@ public class GameScreen extends BaseScreen {
   private static final int MED_ASTEROID_COUNT   = 7;
   private static final int SMALL_ASTEROID_COUNT = 10;
 
-  private TextureAtlas gameAtlas;
-  private TextureAtlas extraAtlas; // атлас по взрывами и gameover
+  private final Game game;
 
-  private EnemyPool     enemyPool;
-  private BulletPool    bulletPool;
-  private ExplosionPool explosionPool;
-
-  private MainShip         mainShip;
-  private GameOver         gameOver;
-  private EnemyEmitter     enemyEmitter;
-  private BackgroundSprite backgroundSprite;
-
+  private TextureAtlas           gameAtlas;
+  private TextureAtlas           extraAtlas; // атлас по взрывами и gameover
+  private EnemyPool              enemyPool;
+  private BulletPool             bulletPool;
+  private ExplosionPool          explosionPool;
+  private MainShip               mainShip;
+  private GameOver               gameOver;
+  private NewGame                newGame;
+  private EnemyEmitter           enemyEmitter;
+  private BackgroundSprite       backgroundSprite;
   private BigAsteroidSprite[]    bigAsteroids;
   private MediumAsteroidSprite[] mediumAsteroids;
   private SmallAsteroidSprite[]  smallAsteroids;
+  private Sound                  laserSound;
+  private Sound                  bulletSound;
+  private Sound                  explosionSound;
+  private State                  state;
 
-  private Sound laserSound;
-  private Sound bulletSound;
-  private Sound explosionSound;
-
-  private State state;
+  public GameScreen(final Game game) {
+    this.game = game;
+  }
 
   @Override
   public void show() {
@@ -67,19 +70,16 @@ public class GameScreen extends BaseScreen {
       mainShip         = new MainShip(gameAtlas, bulletPool, explosionPool, laserSound);
       backgroundSprite = new BackgroundSprite(gameAtlas);
       gameOver         = new GameOver(extraAtlas);
+      newGame          = new NewGame(extraAtlas, game);
 
       bigAsteroids    = new BigAsteroidSprite[BIG_ASTEROID_COUNT];
       mediumAsteroids = new MediumAsteroidSprite[MED_ASTEROID_COUNT];
       smallAsteroids  = new SmallAsteroidSprite[SMALL_ASTEROID_COUNT];
 
-      for (int i = 0; i < BIG_ASTEROID_COUNT; i++)
-           bigAsteroids[i] = new BigAsteroidSprite(gameAtlas);
 
-      for (int i = 0; i < MED_ASTEROID_COUNT; i++)
-           mediumAsteroids[i] = new MediumAsteroidSprite(gameAtlas);
-
-      for (int i = 0; i < SMALL_ASTEROID_COUNT; i++)
-           smallAsteroids[i] = new SmallAsteroidSprite(gameAtlas);
+      for (int i = 0; i < BIG_ASTEROID_COUNT; i++) { bigAsteroids[i] = new BigAsteroidSprite(gameAtlas); }
+      for (int i = 0; i < MED_ASTEROID_COUNT; i++) { mediumAsteroids[i] = new MediumAsteroidSprite(gameAtlas); }
+      for (int i = 0; i < SMALL_ASTEROID_COUNT; i++) { smallAsteroids[i] = new SmallAsteroidSprite(gameAtlas); }
 
     } catch (GameException e) {
       throw new RuntimeException(e);
@@ -97,10 +97,8 @@ public class GameScreen extends BaseScreen {
 
   private void update(final float delta) {
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.update(delta);
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
-      mediumAsteroidSprite.update(delta);
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
-      smallAsteroidSprite.update(delta);
+    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids) mediumAsteroidSprite.update(delta);
+    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) smallAsteroidSprite.update(delta);
     explosionPool.updateActiveSprites(delta);
     if (state == State.PLAYING) {
       mainShip.update(delta);
@@ -144,10 +142,8 @@ public class GameScreen extends BaseScreen {
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
     backgroundSprite.draw(batch);
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
-      smallAsteroidSprite.draw(batch);
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
-      mediumAsteroidSprite.draw(batch);
+    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids) { smallAsteroidSprite.draw(batch); }
+    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids) { mediumAsteroidSprite.draw(batch); }
     for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.draw(batch);
 
     switch (state) {
@@ -160,6 +156,7 @@ public class GameScreen extends BaseScreen {
         break;
       case GAME_OVER:
         gameOver.draw(batch);
+        newGame.draw(batch);
         break;
     }
     explosionPool.drawActiveSprites(batch);
@@ -206,12 +203,13 @@ public class GameScreen extends BaseScreen {
   public void resize(final Rect worldBounds) {
     mainShip.resize(worldBounds);
     backgroundSprite.resize(worldBounds);
-    for (final BigAsteroidSprite asteroidSprite : bigAsteroids) asteroidSprite.resize(worldBounds);
-    for (final MediumAsteroidSprite mediumAsteroidSprite : mediumAsteroids)
-      mediumAsteroidSprite.resize(worldBounds);
-    for (final SmallAsteroidSprite smallAsteroidSprite : smallAsteroids)
-      smallAsteroidSprite.resize(worldBounds);
+    for (final BigAsteroidSprite bigAsteroid : bigAsteroids) bigAsteroid.resize(worldBounds);
+    for (final MediumAsteroidSprite mediumAsteroid : mediumAsteroids) {
+      mediumAsteroid.resize(worldBounds);
+    }
+    for (final SmallAsteroidSprite smallAsteroid : smallAsteroids) { smallAsteroid.resize(worldBounds); }
     gameOver.resize(worldBounds);
+    newGame.resize(worldBounds);
   }
 
   @Override
@@ -243,12 +241,21 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
+  public boolean touchUp(final Vector2 touch,
+                         final int pointer,
+                         final int button) {
+    newGame.touchUp(touch, pointer, button);
+    return false;
+  }
+
+  @Override
   public boolean touchDown(final Vector2 touch,
                            final int pointer,
                            final int button) {
     if (state == State.PLAYING) {
       mainShip.touchDown(touch, pointer, button);
     }
+    newGame.touchDown(touch, pointer, button);
     return false;
   }
 
