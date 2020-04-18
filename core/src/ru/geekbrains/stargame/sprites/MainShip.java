@@ -25,10 +25,10 @@ public class MainShip extends Ship {
   private boolean down  = false;
   private boolean left  = false;
 
-  public MainShip(TextureAtlas atlas,
-                  BulletPool bulletPool,
-                  ExplosionPool explosionPool,
-                  Sound shootSound)
+  public MainShip(final TextureAtlas atlas,
+                  final BulletPool bulletPool,
+                  final ExplosionPool explosionPool,
+                  final Sound shootSound)
       throws GameException {
     super(atlas.findRegion("playerShip3_green"));
     this.explosionPool = explosionPool;
@@ -41,10 +41,10 @@ public class MainShip extends Ship {
     v0      = new Vector2(0.5f, 0);
     v       = new Vector2();
 
-    damage         = 2;
-    hp             = 20;
+    damage         = 3;
+    hp             = 100;
     bulletHeight   = 0.02f;
-    reloadInterval = 0.2f;
+    reloadInterval = 0.15f;
     reloadTimer    = reloadInterval;
   }
 
@@ -62,7 +62,7 @@ public class MainShip extends Ship {
     checkPressedButton(anyKeyPressed);
 
     // Как далеко может сместиться спрайт за дельту
-    final float speed = 0.1f;
+    final float speed = 0.3f;
     final float maxDistance = speed * delta;
     if (newPosition.dst(position) >= maxDistance || anyKeyPressed) {
       position.mulAdd(dir, maxDistance);
@@ -201,10 +201,20 @@ public class MainShip extends Ship {
     shootSound.dispose();
   }
 
+  /**
+   * Проверяем столкновение пули с кораблем
+   *
+   * @param bullet пуля
+   * @return true, если пуля столкнулась с кораблем
+   */
   public boolean isBulletCollision(final Rect bullet) {
     return !(bullet.getRight() < getLeft()
              || bullet.getLeft() > getRight()
              || bullet.getBottom() > position.y
              || bullet.getTop() < getBottom());
+  }
+
+  public int getHp() {
+    return hp;
   }
 }

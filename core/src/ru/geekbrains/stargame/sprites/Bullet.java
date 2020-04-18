@@ -7,10 +7,10 @@ import ru.geekbrains.stargame.math.Rect;
 
 public class Bullet extends Sprite {
   private final Vector2 speedVector = new Vector2();
-  private       int     damage;
+  private       Rect    worldBounds;
+  private       Object  owner;
 
-  private Rect   worldBounds;
-  private Object owner;
+  private int damage;
 
   public Bullet() {
     regions = new TextureRegion[2];

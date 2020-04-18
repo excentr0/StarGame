@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import ru.geekbrains.stargame.base.BaseScreen;
+import ru.geekbrains.stargame.base.Font;
 import ru.geekbrains.stargame.exceptions.GameException;
 import ru.geekbrains.stargame.math.Rect;
 import ru.geekbrains.stargame.pool.BulletPool;
@@ -18,9 +20,15 @@ import ru.geekbrains.stargame.utils.EnemyEmitter;
 import java.util.List;
 
 public class GameScreen extends BaseScreen {
-  private static final int BIG_ASTEROID_COUNT   = 5;
-  private static final int MED_ASTEROID_COUNT   = 7;
-  private static final int SMALL_ASTEROID_COUNT = 10;
+  private static final int   BIG_ASTEROID_COUNT   = 3;
+  private static final int   MED_ASTEROID_COUNT   = 5;
+  private static final int   SMALL_ASTEROID_COUNT = 7;
+  private static final float FONT_SIZE            = 0.02f;
+  private static final float FONT_MARGIN          = 0.01f;
+
+  private static final String FRAGS = "Frags: ";
+  private static final String HP    = "FP: ";
+  private static final String LEVEL = "Level: ";
 
   private final Game game;
 
@@ -41,6 +49,12 @@ public class GameScreen extends BaseScreen {
   private Sound                  bulletSound;
   private Sound                  explosionSound;
   private State                  state;
+  private State                  preState;
+  private Font                   font;
+  private StringBuilder          sbFrags;
+  private StringBuilder          sbHP;
+  private StringBuilder          sbLevel;
+  private int                    fragsCount;
 
   public GameScreen(final Game game) {
     this.game = game;
@@ -61,10 +75,23 @@ public class GameScreen extends BaseScreen {
     enemyPool     = new EnemyPool(bulletPool, explosionPool, worldBounds);
     enemyEmitter  = new EnemyEmitter(gameAtlas, enemyPool, worldBounds, bulletSound);
 
+    font = new Font("font/font.fnt", "font/font.png");
+    font.setSize(FONT_SIZE);
+
+    sbFrags = new StringBuilder();
+    sbHP    = new StringBuilder();
+    sbLevel = new StringBuilder();
+
     initSprites();
-    state = State.PLAYING;
+    state    = State.PLAYING;
+    preState = State.PLAYING;
+
+    fragsCount = 0;
   }
 
+  /**
+   * Создаем спрайты
+   */
   private void initSprites() {
     try {
       mainShip         = new MainShip(gameAtlas, bulletPool, explosionPool, laserSound);
@@ -104,10 +131,15 @@ public class GameScreen extends BaseScreen {
       mainShip.update(delta);
       bulletPool.updateActiveSprites(delta);
       enemyPool.updateActiveSprites(delta);
-      enemyEmitter.generate(delta);
+      enemyEmitter.generate(delta, fragsCount);
+    } else if (state == State.GAME_OVER) {
+      newGame.update(delta);
     }
   }
 
+  /**
+   * Проверка на коллизии кораблей и пуль
+   */
   private void checkCollisions() {
     if (state != State.PLAYING) {
       return;
@@ -121,6 +153,7 @@ public class GameScreen extends BaseScreen {
       float minDist = enemy.getHalfWidth() + mainShip.getHalfWidth();
       if (mainShip.position.dst(enemy.position) < minDist) {
         enemy.destroy();
+        fragsCount++;
         mainShip.damage(enemy.getDamage());
       }
       checkEnemyShipHit(bulletList, enemy);
@@ -160,6 +193,7 @@ public class GameScreen extends BaseScreen {
         break;
     }
     explosionPool.drawActiveSprites(batch);
+    printInfo();
     batch.end();
   }
 
@@ -178,6 +212,7 @@ public class GameScreen extends BaseScreen {
       if (enemy.isBulletCollision(bullet)) {
         enemy.damage(bullet.getDamage());
         bullet.destroy();
+        if (enemy.isDestroyed()) fragsCount++;
       }
     }
   }
@@ -199,6 +234,32 @@ public class GameScreen extends BaseScreen {
     }
   }
 
+  /**
+   * Выводим данные игрока
+   */
+  private void printInfo() {
+    sbFrags.setLength(0);
+    sbHP.setLength(0);
+    sbLevel.setLength(0);
+
+    font.draw(batch, sbFrags.append(FRAGS)
+                            .append(fragsCount),
+              worldBounds.getLeft() + FONT_MARGIN,
+              worldBounds.getTop() - FONT_MARGIN);
+
+    font.draw(batch, sbHP.append(HP)
+                         .append(mainShip.getHp()),
+              worldBounds.position.x,
+              worldBounds.getTop() - FONT_MARGIN,
+              Align.center);
+
+    font.draw(batch, sbLevel.append(LEVEL)
+                            .append(enemyEmitter.getLevel()),
+              worldBounds.getRight() - FONT_MARGIN,
+              worldBounds.getTop() - FONT_MARGIN,
+              Align.right);
+  }
+
   @Override
   public void resize(final Rect worldBounds) {
     mainShip.resize(worldBounds);
@@ -213,6 +274,17 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
+  public void pause() {
+    preState = state;
+    state    = State.PAUSE;
+  }
+
+  @Override
+  public void resume() {
+    state = preState;
+  }
+
+  @Override
   public void dispose() {
     batch.dispose();
     gameAtlas.dispose();
@@ -221,11 +293,12 @@ public class GameScreen extends BaseScreen {
     bulletSound.dispose();
     explosionSound.dispose();
     mainShip.dispose();
+    font.dispose();
     super.dispose();
   }
 
   @Override
-  public boolean keyDown(int keycode) {
+  public boolean keyDown(final int keycode) {
     if (state == State.PLAYING) {
       return mainShip.keyDown(keycode);
     }
@@ -233,7 +306,7 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
-  public boolean keyUp(int keycode) {
+  public boolean keyUp(final int keycode) {
     if (state == State.PLAYING) {
       return mainShip.keyUp(keycode);
     }
@@ -244,7 +317,9 @@ public class GameScreen extends BaseScreen {
   public boolean touchUp(final Vector2 touch,
                          final int pointer,
                          final int button) {
-    newGame.touchUp(touch, pointer, button);
+    if (state == State.GAME_OVER) {
+      newGame.touchUp(touch, pointer, button);
+    }
     return false;
   }
 
@@ -254,8 +329,9 @@ public class GameScreen extends BaseScreen {
                            final int button) {
     if (state == State.PLAYING) {
       mainShip.touchDown(touch, pointer, button);
+    } else if (state == State.GAME_OVER) {
+      newGame.touchDown(touch, pointer, button);
     }
-    newGame.touchDown(touch, pointer, button);
     return false;
   }
 

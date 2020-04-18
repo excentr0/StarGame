@@ -13,14 +13,16 @@ import ru.geekbrains.stargame.math.Rect;
 
 public abstract class BaseScreen implements Screen, InputProcessor {
 
-  private final Music       music;
-  protected     SpriteBatch batch;
-  protected     Vector2     touch;
-  protected     Rect        worldBounds;
-  private       Rect        screenBounds;
-  private       Rect        glBounds;
-  private       Matrix4     worldToGl;
-  private       Matrix3     screenToWorld;
+  protected final Music music;
+
+  protected SpriteBatch batch;
+  protected Vector2     touch;
+  protected Rect        worldBounds;
+
+  private Matrix4 worldToGl;
+  private Matrix3 screenToWorld;
+  private Rect    screenBounds;
+  private Rect    glBounds;
 
   public BaseScreen() {
     music = Gdx.audio.newMusic(Gdx.files.internal("sound/music.mp3"));
@@ -69,11 +71,13 @@ public abstract class BaseScreen implements Screen, InputProcessor {
   @Override
   public void pause() {
     System.out.println("pause");
+    music.pause();
   }
 
   @Override
   public void resume() {
     System.out.println("resume");
+    music.play();
   }
 
   @Override
@@ -174,7 +178,8 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 
   protected void calcTouch(int screenX,
                            int screenY) {
-    touch.set(screenX, screenBounds.getHeight() - screenY).mul(screenToWorld);
+    touch.set(screenX, screenBounds.getHeight() - screenY)
+         .mul(screenToWorld);
   }
 
   public boolean touchDown(Vector2 touch,

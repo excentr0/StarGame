@@ -9,6 +9,9 @@ import ru.geekbrains.stargame.pool.BulletPool;
 import ru.geekbrains.stargame.pool.ExplosionPool;
 
 public class Enemy extends Ship {
+
+
+
   public Enemy(BulletPool bulletPool,
                ExplosionPool explosionPool,
                Rect worldBounds) {

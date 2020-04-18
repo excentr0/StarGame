@@ -12,23 +12,26 @@ import ru.geekbrains.stargame.sprites.Explosion;
 
 public abstract class Ship extends Sprite {
 
+  private static final float DELTA_COEFF = 1.2f;
+
+
   protected Vector2 v;
   protected Vector2 v0;
   protected Vector2 bulletV;
 
-  protected Rect  worldBounds;
-  protected Sound shootSound;
-
+  protected Rect            worldBounds;
+  protected Sound           shootSound;
   protected BulletPool      bulletPool;
   protected ExplosionPool   explosionPool;
   protected TextureRegion[] bulletRegions;
 
-  protected int damage;
-  protected int hp;
-
+  protected int   damage;
+  protected int   hp;
   protected float bulletHeight;
   protected float reloadInterval;
   protected float reloadTimer;
+  private   float savedDelta = 0;
+
 
   public Ship() {}
 
@@ -37,7 +40,15 @@ public abstract class Ship extends Sprite {
   }
 
   @Override
-  public void update(final float delta) {
+  public void update(float delta) {
+    // Хах для паузы, что бы корабли не летали на паузе
+    if (savedDelta == 0f) {
+      savedDelta = delta;
+    }
+    if (delta > savedDelta * DELTA_COEFF) {
+      delta = savedDelta;
+    }
+
     if (position.y + getHalfHeight() > worldBounds.getTop()) {
       position.mulAdd(v, delta * 2);
       // делаем reloadTimer равным reloadInterval, что бы корабль выстрелил сразу после
