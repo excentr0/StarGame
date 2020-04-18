@@ -27,7 +27,7 @@ public class GameScreen extends BaseScreen {
   private static final float FONT_MARGIN          = 0.01f;
 
   private static final String FRAGS = "Frags: ";
-  private static final String HP    = "FP: ";
+  private static final String HP    = "HP: ";
   private static final String LEVEL = "Level: ";
 
   private final Game game;
